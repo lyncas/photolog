@@ -1,0 +1,93 @@
+{% extends "base.html" %}
+{% load staticfiles i18n %}
+
+{% block title %}Preview{% endblock title %}
+
+{% block css %}
+<link href="{% static 'css/preview.css' %}" rel="stylesheet">
+<link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
+{% endblock css %}
+
+{% block content %}
+<header>
+<div class="container" style="padding-top: 100px; padding-bottom: 100px;">
+    <div class="row">
+        <form action="." method="POST">{% csrf_token %}
+
+    	<div class="col-md-4">
+            <ul id="sortable">
+            {% for image in images %}
+			  <li id="{{image.id}}" onclick="process_image('{{image.image.url}}', '{{image.id}}', 'false')" style="width:120px;height:120px;"><img src="{{image.thumbnail.url}}"></li>
+			 {% endfor %}
+			</ul>
+
+        <div class="row">
+            <div class="col-md-8 col-md-offset-2" style="margin-bottom: 10px;margin-top:15px;">
+                <input type="text" name="project" placeholder="Name your project." class="form-control" style="color: black;" {% if project.name %} value="{{project.name}}" {% endif %}>
+            </div>
+        </div>
+
+			<button class="btn btn-success" style="margin-top: 20px;" onclick="$('form').submit();">Save Project</button>
+    	</div>
+    	<div class="col-md-6 col-md-offset-1">
+
+    		{% for image in images %}
+        		<div class="form-group">
+        			<input id="caption_{{image.id}}" type="text" class="form-control caption hidden" name="caption_{{image.id}}" style="color: black;" placeholder="A beautiful caption for this image..." {% if image.caption %} value="{{image.caption}}" {% endif %}>
+        		</div>
+    		{% endfor %}
+    		<div class="img-container">
+	    		<img id="main-img" src="{{first_img.image.url}}">
+    		</div>
+      </div>
+    		</form>
+
+    </div>
+</div>
+
+</header>
+{% endblock content %}
+
+{% block javascript %}
+  
+  <script src="//code.jquery.com/jquery-1.10.2.js"></script>
+  <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+  <script src="{% static 'js/csrftoken.js' %}"></script>
+  <script>
+$( document ).ready(function() {
+	process_image("{{first_img.image.url}}", "{{first_img.id}}", 'true');
+});
+
+
+  function process_image(img_url, img_id, initial) {
+  	if(initial == 'true'){
+		  $("#sortable").sortable();
+      $("#sortable").disableSelection();
+	}else{
+		var itemIds = $( "#sortable" ).sortable('toArray');
+		post_image_order(itemIds);
+	}
+  	$('#main-img').attr("src", img_url);
+  	$(".caption").removeClass("hidden");
+  	$(".caption").not("#caption_" + img_id).hide();
+  	$("#caption_" + img_id).show();
+
+  }
+function post_image_order(image_order) {
+	var url = "/api/project/" + "{{project.id}}/";
+	var img_order_str = image_order.join(',');
+	data = {image_order: img_order_str};
+   $.ajax({
+        url: url,
+        type: "PUT",
+        data: JSON.stringify(data),
+        dataType: 'json',
+        contentType: "application/json",
+        success: function(data) {
+        	console.log('success');
+        	console.log(data);
+        }
+    });
+}
+  </script>
+{% endblock javascript %}

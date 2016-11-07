@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+{% load staticfiles i18n %}
+
+{% block title %}Preview{% endblock title %}
+
+{% block content %}
+    <header>
+        <div class="header-content">
+            <div class="header-content-inner">
+                <h1 id="homeHeading">Success !</h1>
+                <hr>
+                <div class="row">
+                	<div class="col-md-6">
+		                <p>Download your Photo Log Report now !</p>
+			              <a class="btn btn-success btn-xl" href="?generate=true">
+			                 Generate Report
+			              </a>
+                	</div>
+                	<div class="col-md-6">
+		                <p>Download this temp file & come back later !</p>
+			              <a class="btn btn-primary btn-xl" href="?tempfile=true">
+			                 Download Temp File
+			              </a>
+                	</div>
+                </div>
+            </div>
+        </div>
+    </header>
+{% endblock content %}

@@ -1,0 +1,97 @@
+{% extends "base.html" %}
+{% load staticfiles i18n %}
+
+{% block title %}Preview{% endblock title %}
+
+{% block css %}
+<link href="{% static 'css/preview.css' %}" rel="stylesheet">
+<link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
+
+  <link rel="stylesheet" type="text/css" media="all" href="{% static 'css/styles.css' %}">
+  <link rel="stylesheet" type="text/css" media="all" href="{% static 'css/jquery.lightbox-0.5.css' %}">
+  <link rel="stylesheet" type="text/css" media="all" href="http://fonts.googleapis.com/css?family=Lato|Skranji:700">
+
+{% endblock css %}
+
+{% block content %}
+  <div id="wrapper">
+    <div id="content">
+      <h1>Lightbox Thumbnail Gallery</h1>
+      
+      <div class="photos">
+        <ul class="clearfix" id="sortable">
+          <!-- ATTRIBUTION: http://dribbble.com/shots/963800-New-App-design -->
+          <li><a href="{% static 'img/photos/01-app-design-iphone.png' %}" rel="lightbox" title="Designed by <a href='http://dribbble.com/shots/963800-New-App-design' target='_blank'>Natalia Berowska</a>"><img src="{% static 'img/photos/01-app-design-iphone-thumb.png' %}" width="150" height="150"></a></li>
+          
+          <!-- ATTRIBUTION: http://dribbble.com/shots/963671-Navigation -->
+          <li><a href="{% static 'img/photos/02-ios-side-navigation.png' %}" rel="lightbox" title="Designed by <a href='http://dribbble.com/shots/963671-Navigation' target='_blank'>Matt D. Smith</a>"><img src="{% static 'img/photos/02-ios-side-navigation-thumb.png' %}" width="150" height="150"></a></li>
+          
+          <!-- ATTRIBUTION: http://dribbble.com/shots/962966-Share -->
+          <li><a href="{% static 'img/photos/03-share-buttons-ios.png' %}" rel="lightbox" title="Designed by <a href='http://dribbble.com/shots/962966-Share' target='_blank'>Nicholas Swanson</a>"><img src="{% static 'img/photos/03-share-buttons-ios-thumb.png' %}" width="150" height="150"></a></li>
+          
+          <!-- ATTRIBUTION: http://dribbble.com/shots/961333-Profile-Screen-WIP -->
+          <li><a href="{% static 'img/photos/04-profile-screen-iphone.png' %}" rel="lightbox" title="Designed by <a href='http://dribbble.com/shots/961333-Profile-Screen-WIP' target='_blank'>Alex Sharpz</a>"><img src="{% static 'img/photos/04-profile-screen-iphone-thumb.png' %}" width="150" height="150"></a></li>
+          
+          <!-- ATTRIBUTION: http://dribbble.com/shots/961314-Chat-IOS-App -->
+          <li><a href="{% static 'img/photos/05-iphone-chat-app.png' %}" rel="lightbox" title="Designed by <a href='http://dribbble.com/shots/961314-Chat-IOS-App' target='_blank'>Daniela Alves</a>"><img src="{% static 'img/photos/05-iphone-chat-app-thumb.png' %}" width="150" height="150"></a></li>
+          
+          <!-- ATTRIBUTION: http://dribbble.com/shots/958102-Traveler-3-0-Favorites -->
+          <li><a href="{% static 'img/photos/06-traveler-iphone-app-white.png' %}" rel="lightbox" title="Designed by <a href='http://dribbble.com/shots/958102-Traveler-3-0-Favorites' target='_blank'>Lynette Liwanag</a>"><img src="{% static 'img/photos/06-traveler-iphone-app-white-thumb.png' %}" width="150" height="150"></a></li>
+          
+          <!-- ATTRIBUTION: http://dribbble.com/shots/960585-Twitter-Client-UI-Design -->
+          <li><a href="{% static 'img/photos/07-twitter-client-dark.png' %}" rel="lightbox" title="Designed by <a href='http://dribbble.com/shots/960585-Twitter-Client-UI-Design' target='_blank'>Mike Hince</a>"><img src="{% static 'img/photos/07-twitter-client-dark-thumb.png' %}" width="150" height="150"></a></li>
+          
+          <!-- ATTRIBUTION: http://dribbble.com/shots/957175-Share-Section -->
+          <li><a href="{% static 'img/photos/08-iphone-share-app.png' %}" rel="lightbox" title="Designed by <a href='http://dribbble.com/shots/957175-Share-Section' target='_blank'>Evan Kimia</a>"><img src="{% static 'img/photos/08-iphone-share-app-thumb.png' %}" width="150" height="150"></a></li>
+        </ul>
+      </div>
+      
+      <h1>Secondary Gallery</h1>
+      <div class="photos">
+        <ul class="clearfix">
+          <!-- ATTRIBUTION: http://dribbble.com/shots/965861-Gas-Heater-Ios-Icon -->
+          <li><a href="{% static 'img/photos-2nd/01-gas-heater-ios-app-icon.png' %}" rel="2ndlightbox" title="Designed by Edu Torres"><img src="{% static 'img/photos-2nd/01-gas-heater-ios-app-icon-thumb.png' %}" width="150" height="150"></a></li>
+          
+          <!-- ATTRIBUTION: http://dribbble.com/shots/964877-PassBox-iOS-Icon -->
+          <li><a href="{% static 'img/photos-2nd/02-movie-film-icon-app.png' %}" rel="2ndlightbox" title="Designed by Takahashi Alex"><img src="{% static 'img/photos-2nd/02-movie-film-icon-app-thumb.png' %}" width="150" height="150"></a></li>
+          
+          <!-- ATTRIBUTION: http://dribbble.com/shots/965043-DINO-DOMINION-iOS-Icon -->
+          <li><a href="{% static 'img/photos-2nd/03-dino-dominion-ios-app.png' %}" rel="2ndlightbox" title="Designed by Gregory Kozhemyak"><img src="{% static 'img/photos-2nd/03-dino-dominion-ios-app-thumb.png' %}" width="150" height="150"></a></li>
+          
+          <!-- ATTRIBUTION: http://dribbble.com/shots/961772-Tagger-icon -->
+          <li><a href="{% static 'img/photos-2nd/04-photo-tagger-app-icon.png' %}" rel="2ndlightbox" title="Designed by Alex Bender"><img src="{% static 'img/photos-2nd/04-photo-tagger-app-icon-thumb.png' %}" width="150" height="150"></a></li>
+          
+          <!-- ATTRIBUTION: http://dribbble.com/shots/957195-Air-Hockey -->
+          <li><a href="{% static 'img/photos-2nd/05-air-hockey-app-icon.png' %}" rel="2ndlightbox" title="Designed by Alex Bender"><img src="{% static 'img/photos-2nd/05-air-hockey-app-icon-thumb.png' %}" width="150" height="150"></a></li>
+          
+          <!-- ATTRIBUTION: http://dribbble.com/shots/955207-iOS-App-Icon-Design-Reading-Rainbow -->
+          <li><a href="{% static 'img/photos-2nd/06-reading-rainbow-app-icon.png' %}" rel="2ndlightbox" title="Designed by The Iconfactory"><img src="{% static 'img/photos-2nd/06-reading-rainbow-app-icon-thumb.png' %}" width="150" height="150"></a></li>
+        </ul>
+      </div>
+    </div> <!-- /end #content -->
+    
+    <footer id="credits">
+      <p>Lightbox effect generated via <a href="http://leandrovieira.com/projects/jquery/lightbox/" target="_blank">jQuery Lightbox Plugin</a>.</p>
+    </footer>
+  </div>
+{% endblock content %}
+
+{% block javascript %}
+  
+  <script src="//code.jquery.com/jquery-1.10.2.js"></script>
+  <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+  <script type="text/javascript" charset="utf-8" src="{% static 'js/jquery.lightbox-0.5.min.js' %}"></script>
+  <script>
+  $("#sortable").sortable();
+	$(function(){
+	  $('a[rel=lightbox]').lightBox({
+	    containerResizeSpeed: 250,
+	    fixedNavigation: true
+	  });
+	  $('a[rel=2ndlightbox]').lightBox({
+	    overlayBgColor: '#fff',
+	    overlayOpacity: 0.7
+	  });
+	});
+  </script>
+{% endblock javascript %}

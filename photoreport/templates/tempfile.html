@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+{% load staticfiles i18n %}
+
+{% block title %}Home{% endblock title %}
+
+{% block content %}
+    <header>
+        <div class="header-content">
+            <div class="header-content-inner">
+                <h1 id="homeHeading">Select your tempfile and resume</h1>
+                <hr>
+                <form class="form-inline" method="POST" action="." enctype='multipart/form-data'>{% csrf_token %}
+                    <div class="form-group">
+                       {{form.temp_file}}
+                    </div>
+                    <div class="form-group">
+                          <button type="submit" class="btn btn-default btn-xl">
+                             Go!
+                          </button>
+                    </div>
+                    <br>
+                    <br>
+                          {{form.temp_file.errors|first}}     
+                </form>
+            </div>
+        </div>
+    </header>
+{% endblock %}
