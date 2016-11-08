@@ -28,7 +28,7 @@ class InputForm(forms.ModelForm):
         archive = ZipFile(myfile, 'r')
         photos = archive.namelist()
         valid_extensions = [
-            '.png', '.jpg', '.gif', '.bmp', '.jpeg'
+            '.png', '.jpg', '.JPG', '.gif', '.bmp', '.jpeg'
         ]
         valid_files = [
             i for i in photos if '.' +

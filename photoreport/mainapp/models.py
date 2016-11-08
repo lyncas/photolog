@@ -138,7 +138,7 @@ class InputFile(models.Model):
         # Get list of files from zip
         photos = archive.namelist()
         valid_extensions = [
-            '.png', '.jpg', '.gif', '.bmp', '.jpeg'
+            '.png', '.jpg', '.JPG', '.gif', '.bmp', '.jpeg'
         ]
         for photo in photos:
             if not '.' + photo.split('.')[-1] in valid_extensions:
