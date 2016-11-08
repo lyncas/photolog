@@ -10,5 +10,6 @@
 3. pip install -r requirements.txt
 4. create mysql database photoreport & update mysql credentials in photoreport/settings.py line 80.
 5. python manage.py migrate
-6. python manage.py runserver
+6. python manage.py runserver 
+    optional   python manage.py runserver 0.0.0.0:8000      (allows computers external to access) 
 7. View 127.0.0.1:8000 on your browser.
