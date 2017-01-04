@@ -20,17 +20,11 @@
 			  <li id="{{image.id}}" onclick="process_image('{{image.image.url}}', '{{image.id}}', 'false')" style="width:80px;height:50px;"><img src="{{image.thumbnail.url}}"></li>
 			 {% endfor %}
 			</ul>
-
-        <div class="row">
-            <div class="col-md-8 col-md-offset-2" style="margin-bottom: 10px;margin-top:75px;">
-                <input type="text" name="project" placeholder="Name your project." class="form-control" style="color: black;" {% if project.name %} value="{{project.name}}" {% endif %}>
-            </div>
         </div>
 
-			<button class="btn btn-success" style="margin-top: 20px;" onclick="$('form').submit();">Save Project</button>
-    	</div>
     	<div class="col-md-6 col-md-offset-2">
 
+		<button class="btn btn-success" style="margin-top: 20px; margin-bottom: 30px;" onclick="$('form').submit();">Hide Uncaptioned Photos</button>
     		{% for image in images %}
         		<div class="form-group">
         			<input id="caption_{{image.id}}" type="text" class="form-control caption hidden" name="caption_{{image.id}}" style="color: black;" placeholder="Write caption for this image or type letter d to delete..." {% if image.caption %} value="{{image.caption}}" {% endif %}>
@@ -39,6 +33,11 @@
     		<div class="img-container">
 	    		<img id="main-img" src="{{first_img.image.url}}">
     		</div>
+
+                <input type="text" name="project" placeholder="Type your Job Number. (i.e. 31010..)" class="form-control" style="color: black;" {% if project.name %} value="{{project.name}}" {% endif %}>
+		<button class="btn btn-success" style="margin-top: 20px;" onclick="$('form').submit();">Save Project</button>
+
+
       </div>
     		</form>
 
