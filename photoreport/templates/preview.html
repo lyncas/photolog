@@ -24,7 +24,7 @@
 
     	<div class="col-md-6 col-md-offset-2">
 
-		<button class="btn btn-success" style="margin-top: 20px; margin-bottom: 30px;" onclick="$('form').submit();">Hide Uncaptioned Photos</button>
+		<button class="btn btn-warning" style="margin-top: 20px; margin-bottom: 30px;" onclick="update_imgs()">Hide Uncaptioned Photos</button>
     		{% for image in images %}
         		<div class="form-group">
         			<input id="caption_{{image.id}}" type="text" class="form-control caption hidden" name="caption_{{image.id}}" style="color: black;" placeholder="Write caption for this image or type letter d to delete..." {% if image.caption %} value="{{image.caption}}" {% endif %}>
@@ -35,7 +35,7 @@
     		</div>
 
                 <input type="text" name="project" placeholder="Type your Job Number. (i.e. 31010..)" class="form-control" style="color: black;" {% if project.name %} value="{{project.name}}" {% endif %}>
-		<button class="btn btn-success" style="margin-top: 20px;" onclick="$('form').submit();">Save Project</button>
+		<button class="btn btn-success" style="margin-top: 20px;" onclick="$('form').submit();">Finalize / Save</button>
 
 
       </div>
@@ -57,6 +57,9 @@ $( document ).ready(function() {
 	process_image("{{first_img.image.url}}", "{{first_img.id}}", 'true');
 });
 
+  function update_imgs(){
+	$("#sortable").sortable();
+  }
 
   function process_image(img_url, img_id, initial) {
   	if(initial == 'true'){
