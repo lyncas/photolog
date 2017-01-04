@@ -24,7 +24,7 @@
 
     	<div class="col-md-6 col-md-offset-2">
 
-		<button class="btn btn-warning" style="margin-top: 20px; margin-bottom: 30px;" onclick="update_imgs()">Hide Uncaptioned Photos</button>
+		<button class="btn btn-warning" style="margin-top: 20px; margin-bottom: 30px;" onclick="update_imgs(this, event)">Hide Uncaptioned Photos</button>
     		{% for image in images %}
         		<div class="form-group">
         			<input id="caption_{{image.id}}" type="text" class="form-control caption hidden" name="caption_{{image.id}}" style="color: black;" placeholder="Write caption for this image or type letter d to delete..." {% if image.caption %} value="{{image.caption}}" {% endif %}>
@@ -48,7 +48,7 @@
 {% endblock content %}
 
 {% block javascript %}
-  
+
   <script src="//code.jquery.com/jquery-1.10.2.js"></script>
   <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
   <script src="{% static 'js/csrftoken.js' %}"></script>
@@ -57,8 +57,26 @@ $( document ).ready(function() {
 	process_image("{{first_img.image.url}}", "{{first_img.id}}", 'true');
 });
 
-  function update_imgs(){
-	$("#sortable").sortable();
+  function update_imgs(btn, e){
+    e.preventDefault();
+    var $btn = $(btn);
+    if ($btn.hasClass('hidding')) {
+      // show all photos
+      $btn.removeClass('hidding');
+      $('#sortable > li').show();
+      $btn.html('Hide Uncaptioned Photos');
+    } else {
+      // hide uncaptioned photos
+      $btn.addClass('hidding');
+      $('input[id^="caption_"]').each(function () {
+        var value = $(this).val().trim();
+        if (value.length == 0) {
+          var id = $(this).attr('id').replace('caption_', '');
+          $('li#' + id).hide();
+        }
+      })
+      $btn.html('Show Uncaptioned Photos');
+    }
   }
 
   function process_image(img_url, img_id, initial) {
