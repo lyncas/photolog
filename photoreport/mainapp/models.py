@@ -36,14 +36,11 @@ class Image(models.Model):
             return
 
         # Set our max thumbnail size in a tuple (max width, max height)
+        # preview.html has to be changed for this to work.  
         thumbnail_size = (80, 80) #120 also looks good
 
         # django_type = self.image.file.content_type
 
-        # if django_type == 'image/jpeg':
-        #     pillow_type = 'jpeg'
-        #     file_extension = 'jpg'
-        # elif django_type == 'image/png':
         django_type = 'image/png'
         pillow_type = 'png'
         file_extension = 'png'
@@ -87,7 +84,6 @@ class Image(models.Model):
         # Force an UPDATE SQL query if we're editing the image
         # to avoid integrity exception
         super(Image, self).save(force_update=force_update)
-
 
 class Project(models.Model):
     name = models.CharField(max_length=200, null=True, blank=True)

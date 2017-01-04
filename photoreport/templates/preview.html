@@ -22,14 +22,14 @@
 			</ul>
 
         <div class="row">
-            <div class="col-md-8 col-md-offset-2" style="margin-bottom: 10px;margin-top:15px;">
+            <div class="col-md-8 col-md-offset-2" style="margin-bottom: 10px;margin-top:75px;">
                 <input type="text" name="project" placeholder="Name your project." class="form-control" style="color: black;" {% if project.name %} value="{{project.name}}" {% endif %}>
             </div>
         </div>
 
 			<button class="btn btn-success" style="margin-top: 20px;" onclick="$('form').submit();">Save Project</button>
     	</div>
-    	<div class="col-md-6 col-md-offset-1">
+    	<div class="col-md-6 col-md-offset-2">
 
     		{% for image in images %}
         		<div class="form-group">
