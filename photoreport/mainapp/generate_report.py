@@ -29,7 +29,7 @@ class DocumentGenerator(object):
                 	settings.MEDIA_ROOT, image.image.url.split('/media/')[1]
             	)
             	#img_width = image.image.width  #todo if images are too small throw bug?
-            	document.add_picture(img_full_url, width=Inches(5.0))#5.25 inches is other size
+            	document.add_picture(img_full_url, width=Inches(4.8))#5.25 inches is other size
             	last_paragraph = document.paragraphs[-1]  # grab the last paragraph
             	last_paragraph.alignment = WD_ALIGN_PARAGRAPH.CENTER  # center the content of the last paragraph
             	img_idx += 1

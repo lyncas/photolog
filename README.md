@@ -13,3 +13,8 @@
 6. python manage.py runserver 
     optional   python manage.py runserver 0.0.0.0:8000      (allows computers external to access) 
 7. View 127.0.0.1:8000 on the local computer or use the ipaddress of the computer to access externally.
+
+##git instructions:
+git add files 
+git commit -am 'what i changed'
+git push

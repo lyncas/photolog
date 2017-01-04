@@ -9,7 +9,7 @@ class InputForm(forms.ModelForm):
     zip_file = forms.FileField(
         widget=forms.ClearableFileInput(
             attrs={
-                'label': 'Select Input Zip File',
+                'label': 'Select Input Zip File (no spaces in the file name)',
                 'class': u'btn btn-primary btn-xl page-scroll',
                 'placeholder': u'Enter Your Zip File',
                 'accept': "application/zip"
@@ -28,7 +28,7 @@ class InputForm(forms.ModelForm):
         archive = ZipFile(myfile, 'r')
         photos = archive.namelist()
         valid_extensions = [
-            '.png', '.jpg', '.JPG', '.gif', '.bmp', '.jpeg'
+            '.png', '.jpg', '.JPG', '.gif', '.bmp', '.jpeg', '.JPEG'
         ]
         valid_files = [
             i for i in photos if '.' +

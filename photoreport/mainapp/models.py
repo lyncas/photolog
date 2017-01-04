@@ -36,7 +36,7 @@ class Image(models.Model):
             return
 
         # Set our max thumbnail size in a tuple (max width, max height)
-        thumbnail_size = (120, 120)
+        thumbnail_size = (80, 80) #120 also looks good
 
         # django_type = self.image.file.content_type
 

@@ -10,14 +10,14 @@
 
 {% block content %}
 <header>
-<div class="container" style="padding-top: 100px; padding-bottom: 100px;">
+<div class="container" style="padding-top: 50px; padding-bottom: 50px;">
     <div class="row">
         <form action="." method="POST">{% csrf_token %}
 
     	<div class="col-md-4">
             <ul id="sortable">
             {% for image in images %}
-			  <li id="{{image.id}}" onclick="process_image('{{image.image.url}}', '{{image.id}}', 'false')" style="width:120px;height:120px;"><img src="{{image.thumbnail.url}}"></li>
+			  <li id="{{image.id}}" onclick="process_image('{{image.image.url}}', '{{image.id}}', 'false')" style="width:80px;height:50px;"><img src="{{image.thumbnail.url}}"></li>
 			 {% endfor %}
 			</ul>
 
@@ -33,7 +33,7 @@
 
     		{% for image in images %}
         		<div class="form-group">
-        			<input id="caption_{{image.id}}" type="text" class="form-control caption hidden" name="caption_{{image.id}}" style="color: black;" placeholder="A beautiful caption for this image..." {% if image.caption %} value="{{image.caption}}" {% endif %}>
+        			<input id="caption_{{image.id}}" type="text" class="form-control caption hidden" name="caption_{{image.id}}" style="color: black;" placeholder="Write caption for this image or type letter d to delete..." {% if image.caption %} value="{{image.caption}}" {% endif %}>
         		</div>
     		{% endfor %}
     		<div class="img-container">
