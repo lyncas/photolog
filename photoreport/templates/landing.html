@@ -7,9 +7,11 @@
     <header>
         <div class="header-content">
             <div class="header-content-inner">
-                <h1 id="homeHeading">Your Favorite Photo Log Report Generator</h1>
+                <h1 id="homeHeading">Photo Log Upload</h1>
                 <hr>
-                <p>Select Input Zip File containing your photos.</p>
+                <p>Create a Zip File containing your photos. </p>
+                <p>No spaces in zipped folders or photo names.</p>
+		<p>Resize photos so each photo is less than 1MB in size.</p>
                 <form class="form-inline" method="POST" action="." enctype='multipart/form-data'>{% csrf_token %}
                     <div class="form-group">
                        {{form.zip_file}}

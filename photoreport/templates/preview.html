@@ -22,19 +22,19 @@
 			</ul>
         </div>
 
-    	<div class="col-md-6 col-md-offset-2">
+    	<div class="col-md-6 col-md-offset-2" style="position: fixed; right: 0px;">
 
 		<button class="btn btn-warning" style="margin-top: 20px; margin-bottom: 30px;" onclick="update_imgs(this, event)">Hide Uncaptioned Photos</button>
     		{% for image in images %}
         		<div class="form-group">
-        			<input id="caption_{{image.id}}" type="text" class="form-control caption hidden" name="caption_{{image.id}}" style="color: black;" placeholder="Write caption for this image or type letter d to delete..." {% if image.caption %} value="{{image.caption}}" {% endif %}>
+        			<input id="caption_{{image.id}}" type="text" class="form-control caption hidden" name="caption_{{image.id}}" style="color: black;" placeholder="Write caption for this image ..." {% if image.caption %} value="{{image.caption}}" {% endif %}>
         		</div>
     		{% endfor %}
     		<div class="img-container">
 	    		<img id="main-img" src="{{first_img.image.url}}">
     		</div>
 
-                <input type="text" name="project" placeholder="Type your Job Number. (i.e. 31010..)" class="form-control" style="color: black;" {% if project.name %} value="{{project.name}}" {% endif %}>
+                <input type="text" name="project" placeholder="When finished with all captions, Type your Job Number. (i.e. 31010..) and click Save" class="form-control" style="color: black;" {% if project.name %} value="{{project.name}}" {% endif %}>
 		<button class="btn btn-success" style="margin-top: 20px;" onclick="$('form').submit();">Finalize / Save</button>
 
 

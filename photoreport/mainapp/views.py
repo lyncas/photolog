@@ -110,8 +110,7 @@ class ReportGenView(View):
         today_date = datetime.today().strftime('%Y-%m-%d')
         if generate_report:
             gen = DocumentGenerator()
-            file_name = today_date + '_' + \
-                project.name.replace(' ', '_') + '.docx'
+            file_name = project.name.replace(' ', '_') + '_' + today_date + '_PhotoLog.docx'
             document = gen.create(project)
 
             f = BytesIO()
@@ -133,7 +132,7 @@ class ReportGenView(View):
             }
             file_content = json.dumps(content)
             res = HttpResponse(file_content)
-            file_name = 'tempfile_' + today_date + '.json'
+            file_name = project.name.replace(' ', '_') + '_' + today_date + '_PhotoLog.json'
             res['Content-Disposition'] = 'attachment; filename=' + file_name
             return res
         return render(request, self.template_name, self.get_context_data())
