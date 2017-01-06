@@ -27,6 +27,12 @@ class InputForm(forms.ModelForm):
         myfile = self.cleaned_data['zip_file']
         archive = ZipFile(myfile, 'r')
         photos = archive.namelist()
+        for photo in photos:
+            # check if folders/photos name have spaces
+            if len(photo.split()) > 1 or photo.strip() != photo:
+                raise forms.ValidationError(
+                    "Zipped folders or photo names must not contain spaces."
+                )
         valid_extensions = [
             '.png', '.jpg', '.JPG', '.gif', '.bmp', '.jpeg', '.JPEG'
         ]
