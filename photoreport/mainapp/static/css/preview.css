@@ -20,3 +20,11 @@ header{
 /*  width:450px was used before */
 #sortable { list-style-type: none; margin: 0; padding: 0; width: 550px; }
 #sortable li { margin: 3px 3px 3px 0; padding: 1px; float: left; width: 100px; height: 90px; font-size: 4em; text-align: center; }
+
+#sortable li img {
+  border: 2px solid transparent;
+}
+
+#sortable li img.captioned {
+  border-color: #eea236;
+}
