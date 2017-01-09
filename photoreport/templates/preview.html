@@ -55,9 +55,19 @@
   <script>
 $( document ).ready(function() {
 	process_image("{{first_img.image.url}}", "{{first_img.id}}", 'true');
+
+  // check if input fields are cpationed
+  $('input[id^="caption_"]').each(function () {
+    check_captioned(this);
+  });
+
+  // add listener when the user types inside the input fields
+  $('input[id^="caption_"]').keyup(function () {
+    check_captioned(this);
+  });
 });
 
-  function update_imgs(btn, e){
+  function update_imgs(btn, e) {
     e.preventDefault();
     var $btn = $(btn);
     if ($btn.hasClass('hidding')) {
@@ -109,5 +119,15 @@ function post_image_order(image_order) {
         }
     });
 }
+  function check_captioned(input) {
+    var value = $(input).val().trim();
+    var id = $(input).attr('id').replace('caption_', '');
+    var $img = $('li#' + id).find('img');
+    if (value.length > 0) {
+      $img.addClass('captioned');
+    } else {
+      $img.removeClass('captioned');
+    }
+  }
   </script>
 {% endblock javascript %}
