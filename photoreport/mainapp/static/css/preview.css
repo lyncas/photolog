@@ -28,3 +28,7 @@ header{
 #sortable li img.captioned {
   border-color: #eea236;
 }
+
+#sortable li img.selected {
+  border-color: #5cb85c;
+}

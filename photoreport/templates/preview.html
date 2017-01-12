@@ -24,7 +24,7 @@
 
     	<div class="col-md-6 col-md-offset-2" style="position: fixed; right: 0px;">
 
-		<button class="btn btn-warning" style="margin-top: 20px; margin-bottom: 30px;" onclick="update_imgs(this, event)">Hide Uncaptioned Photos</button>
+		<button class="btn btn-warning show-hide-btn" style="margin-top: 20px; margin-bottom: 30px;" onclick="update_imgs(this, event)">Hide Uncaptioned Photos</button>
     		{% for image in images %}
         		<div class="form-group">
         			<input id="caption_{{image.id}}" type="text" class="form-control caption hidden" name="caption_{{image.id}}" style="color: black;" placeholder="Write caption for this image ..." {% if image.caption %} value="{{image.caption}}" {% endif %}>
@@ -65,6 +65,22 @@ $( document ).ready(function() {
   $('input[id^="caption_"]').keyup(function () {
     check_captioned(this);
   });
+
+  select_first_element_after_load();
+
+  $("body").keydown(function(e) {
+    var $focused = $(':focus');
+    if ($focused.length == 0 || $focused.get(0).tagName.toLowerCase() != 'input') {
+      // prevent arrow functionality if focus is on input text
+      if(e.keyCode == 37) { // left
+        e.preventDefault();
+        select_prev_element();
+      } else if (e.keyCode == 39) { // right
+        e.preventDefault();
+        select_next_element();
+      }
+    }
+  });
 });
 
   function update_imgs(btn, e) {
@@ -86,23 +102,31 @@ $( document ).ready(function() {
         }
       })
       $btn.html('Show Uncaptioned Photos');
+
+      // select the first photo if the current photo got hide
+      $currentImg = $('#sortable li img.selected').first();
+      if ($currentImg.length == 0 || !$currentImg.hasClass('captioned')) {
+        select_first_element();
+      }
     }
   }
 
   function process_image(img_url, img_id, initial) {
-  	if(initial == 'true'){
+    $('#sortable li img').removeClass('selected');
+  	if (initial == 'true') {
 		  $("#sortable").sortable();
       $("#sortable").disableSelection();
-	}else{
-		var itemIds = $( "#sortable" ).sortable('toArray');
-		post_image_order(itemIds);
-	}
+  	} else {
+  		var itemIds = $( "#sortable" ).sortable('toArray');
+  		post_image_order(itemIds);
+  	}
   	$('#main-img').attr("src", img_url);
   	$(".caption").removeClass("hidden");
   	$(".caption").not("#caption_" + img_id).hide();
   	$("#caption_" + img_id).show();
-
+    $('#sortable li#' + img_id).find('img').addClass('selected');
   }
+
 function post_image_order(image_order) {
 	var url = "/api/project/" + "{{project.id}}/";
 	var img_order_str = image_order.join(',');
@@ -129,5 +153,76 @@ function post_image_order(image_order) {
       $img.removeClass('captioned');
     }
   }
+
+  function select_first_element_after_load() {
+    $('#sortable li img').removeClass('selected');
+    var $img;
+    if ($('.show-hide-btn').hasClass('hidding')) {
+      $img = $('#sortable li img.captioned').first();
+    } else {
+      $img = $('#sortable li img').first();
+    }
+    if ($img.length > 0) {
+      $img.addClass('selected');
+    }
+  }
+
+  function select_first_element() {
+    var hidding = $('.show-hide-btn').hasClass('hidding');
+    var $firstImg;
+    if (hidding) {
+      $firstImg = $('#sortable li img.captioned').first();
+    } else {
+      $firstImg = $('#sortable li img').first();
+    }
+    if ($firstImg.length > 0) {
+      $firstImg.get(0).closest('li').click();
+    }
+  }
+
+  function select_next_element() {
+    var hidding = $('.show-hide-btn').hasClass('hidding');
+    $currentImg = $('#sortable li img.selected').first();
+    if ($currentImg.length == 0 || (hidding && !$currentImg.hasClass('captioned'))) {
+      // no selected images or selected image is hidden
+      select_first_element();
+    } else {
+      var $imgs;
+      if (hidding) {
+        $imgs = $('#sortable li img.captioned');
+      } else {
+        $imgs = $('#sortable li img');
+      }
+      var idx = $imgs.index($currentImg.get(0));
+      if (idx + 1 >= $imgs.length) {
+        $imgs[0].closest('li').click()
+      } else {
+        $imgs[idx+1].closest('li').click()
+      }
+    }
+  }
+
+  function select_prev_element() {
+    var hidding = $('.show-hide-btn').hasClass('hidding');
+    $currentImg = $('#sortable li img.selected').first();
+    if ($currentImg.length == 0 || (hidding && !$currentImg.hasClass('captioned'))) {
+      // no selected images or selected image is hidden
+      select_first_element();
+    } else {
+      var $imgs;
+      if (hidding) {
+        $imgs = $('#sortable li img.captioned');
+      } else {
+        $imgs = $('#sortable li img');
+      }
+      var idx = $imgs.index($currentImg.get(0));
+      if (idx == 0) {
+        $imgs[$imgs.length-1].closest('li').click()
+      } else {
+        $imgs[idx-1].closest('li').click()
+      }
+    }
+  }
+
   </script>
 {% endblock javascript %}
