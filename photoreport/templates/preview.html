@@ -32,6 +32,7 @@
 		{% for image in images %}
         		<div class="form-group">
         			<input id="caption_{{image.id}}" type="text" class="form-control caption hidden" name="caption_{{image.id}}" style="color: black;" placeholder="Write caption for this image ..." {% if image.caption %} value="{{image.caption}}" {% endif %}>
+                    <input id="rotate_{{image.id}}" type="hidden" name="rotate_{{image.id}}" value="0">
         		</div>
     		{% endfor %}
     		<div class="img-container">
@@ -282,6 +283,7 @@ $( document ).ready(function() {
         }
 
         var imageId = $currentImg.parent().attr('id');
+        $('#rotate_' + imageId).val(newAngle);
 
         var prefix = "rotate-";
 
