@@ -11,9 +11,10 @@ header{
 .img-container {
   width: 100%;
   height: 600px;
+  position: relative;
 }
 
-.img-container img {
+.img-container img.rotate-0, .img-container img.rotate-180 {
   max-height:100%;
   max-width: 100%;
 }
@@ -31,4 +32,44 @@ header{
 
 #sortable li img.selected {
   border-color: #5cb85c;
+}
+
+img#main-img[class*="rotate-"] {
+  position:absolute;
+  top:0;
+  left:0;
+}
+
+img.rotate-90 {
+  -webkit-transform: rotate(90deg);     /* Chrome and other webkit browsers */
+  -moz-transform: rotate(90deg);        /* FF */
+  -o-transform: rotate(90deg);          /* Opera */
+  -ms-transform: rotate(90deg);         /* IE9 */
+  transform: rotate(90deg);             /* W3C compliant browsers */
+  /* IE8 and below */
+  filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=1);
+}
+
+img.rotate-180 {
+  -webkit-transform: rotate(180deg);     /* Chrome and other webkit browsers */
+  -moz-transform: rotate(180deg);        /* FF */
+  -o-transform: rotate(180deg);          /* Opera */
+  -ms-transform: rotate(180deg);         /* IE9 */
+  transform: rotate(180deg);             /* W3C compliant browsers */
+  /* IE8 and below */
+  filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=2);
+}
+
+img.rotate-270 {
+  -webkit-transform: rotate(270deg);     /* Chrome and other webkit browsers */
+  -moz-transform: rotate(270deg);        /* FF */
+  -o-transform: rotate(270deg);          /* Opera */
+  -ms-transform: rotate(270deg);         /* IE9 */
+  transform: rotate(270deg);             /* W3C compliant browsers */
+  /* IE8 and below */
+  filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=3);
+}
+
+#main-img.rotate-90, #main-img.rotate-270 {
+  -webkit-transform-origin: 0 0;
 }

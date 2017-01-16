@@ -1,10 +1,14 @@
+import StringIO
+
 from django.views.generic import FormView, View
+from django.core.files.base import ContentFile
 from django.core.urlresolvers import reverse_lazy
 from django.shortcuts import render, get_object_or_404
 # from PIL import Image as PImage
 from datetime import datetime
 from django.http import HttpResponse, HttpResponseRedirect
 from io import BytesIO
+from PIL import Image as PImage
 import json
 
 from .generate_report import DocumentGenerator
@@ -84,10 +88,25 @@ class PhotoPreview(View):
                 input_file.project.name = project_name
                 input_file.project.save()
                 continue
-            img_id = key.split('_')[1]
-            img = Image.objects.get(id=int(img_id))
-            img.caption = value[0]
-            img.save()
+            elif key.startswith('caption_'):
+                img_id = key.split('_')[1]
+                img = Image.objects.get(id=int(img_id))
+                img.caption = value[0]
+                rotate_angle = 0
+                rotate_key = 'rotate_' + img_id
+
+                rotate_angle = data.get(rotate_key, ['0'])
+                rotate_angle = int(rotate_angle[0])
+
+                if rotate_angle in[90, 180, 270]:
+                    image = PImage.open(img.image.path)
+                    image = image.rotate(rotate_angle, expand=True)
+                    try:
+                        image.save(img.image.path)
+                    except:
+                        pass
+                img.save()
+
         return HttpResponseRedirect(
             reverse_lazy('success', kwargs={'pk': input_file.id})
         )

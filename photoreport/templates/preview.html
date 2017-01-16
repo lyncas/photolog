@@ -17,19 +17,22 @@
     	<div class="col-md-4">
             <ul id="sortable">
             {% for image in images %}
-			  <li id="{{image.id}}" onclick="process_image('{{image.image.url}}', '{{image.id}}', 'false')" style="width:80px;height:50px;"><img src="{{image.thumbnail.url}}"></li>
+			  <li id="{{image.id}}" onclick="process_image('{{image.image.url}}', '{{image.id}}', 'false')" style="width:80px;height:50px;"><img class="rotate-0" src="{{image.thumbnail.url}}"></li>
 			 {% endfor %}
 			</ul>
         </div>
 
     	<div class="col-md-6 col-md-offset-2" style="position: fixed; right: 0px;">
-                <h3 align="left"> Project Number </h3>
-                <input type="text" name="project" placeholder="Type Project Number here" class="form-control" style="width: 30%; color: black; " {% if project.name %} value="{{project.name}}" {% endif %}>
-		<button class="btn btn-success" style="margin-top: 20px; margin-bottom: 20px;" onclick="$('form').submit();">Finalize / Save</button>
-		<button class="btn btn-warning show-hide-btn" style="margin-top: 20px; margin-bottom: 20px;" onclick="update_imgs(this, event)">Hide Uncaptioned Photos</button>
+            <h3 align="left"> Project Number </h3>
+            <input type="text" name="project" placeholder="Type Project Number here" class="form-control" style="width: 30%; color: black; " {% if project.name %} value="{{project.name}}" {% endif %}>
+            <button class="btn btn-info" style="margin-top: 20px; margin-bottom: 20px;" onclick="rotateLeft(event);">Rotate Left</button>
+            <button class="btn btn-info" style="margin-top: 20px; margin-bottom: 20px;" onclick="rotateRight(event);">Rotate Right</button>
+            <button class="btn btn-success" style="margin-top: 20px; margin-bottom: 20px;" onclick="$('form').submit();">Finalize / Save</button>
+            <button class="btn btn-warning show-hide-btn" style="margin-top: 20px; margin-bottom: 20px;" onclick="update_imgs(this, event)">Hide Uncaptioned Photos</button>
 		{% for image in images %}
         		<div class="form-group">
         			<input id="caption_{{image.id}}" type="text" class="form-control caption hidden" name="caption_{{image.id}}" style="color: black;" placeholder="Write caption for this image ..." {% if image.caption %} value="{{image.caption}}" {% endif %}>
+                    <input id="rotate_{{image.id}}" type="hidden" name="rotate_{{image.id}}" value="0">
         		</div>
     		{% endfor %}
     		<div class="img-container">
@@ -62,6 +65,8 @@ $( document ).ready(function() {
   $('input[id^="caption_"]').keyup(function () {
     check_captioned(this);
   });
+
+  adjustImages();
 
   select_first_element_after_load();
 
@@ -117,29 +122,191 @@ $( document ).ready(function() {
   		var itemIds = $( "#sortable" ).sortable('toArray');
   		post_image_order(itemIds);
   	}
-  	$('#main-img').attr("src", img_url);
-  	$(".caption").removeClass("hidden");
+
+    $('#main-img').attr("src", img_url).load(function() {
+        // adjust image size/position after load
+        var prefix = "rotate-";
+        classes = $('#main-img')[0].className.split(" ").filter(function(c) {
+            return c.lastIndexOf(prefix, 0) !== 0;
+        });
+        $('#main-img')[0].className = classes.join(" ").trim();
+        var currentAngle = currentImageAngle();
+        $('#main-img').addClass('rotate-'+currentAngle);
+        $('#main-img').css({'width': '', 'height': ''});
+        adjustSize($('#main-img'));
+    });
+
+    $(".caption").removeClass("hidden");
   	$(".caption").not("#caption_" + img_id).hide();
   	$("#caption_" + img_id).show();
     $('#sortable li#' + img_id).find('img').addClass('selected');
   }
 
-function post_image_order(image_order) {
-	var url = "/api/project/" + "{{project.id}}/";
-	var img_order_str = image_order.join(',');
-	data = {image_order: img_order_str};
-   $.ajax({
-        url: url,
-        type: "PUT",
-        data: JSON.stringify(data),
-        dataType: 'json',
-        contentType: "application/json",
-        success: function(data) {
-        	console.log('success');
-        	console.log(data);
+  function post_image_order(image_order) {
+    var url = "/api/project/" + "{{project.id}}/";
+    var img_order_str = image_order.join(',');
+	  data = {image_order: img_order_str};
+     $.ajax({
+          url: url,
+          type: "PUT",
+          data: JSON.stringify(data),
+          dataType: 'json',
+          contentType: "application/json",
+          success: function(data) {
+          	console.log('success');
+          	console.log(data);
+          }
+      });
+  }
+
+  function currentImageAngle() {
+    var hidding = $('.show-hide-btn').hasClass('hidding');
+    var $currentImg = $('#sortable li img.selected').first();
+    if ($currentImg.length > 0 && (!hidding || (hidding && $currentImg.hasClass('captioned')))) {
+        var currentAngle = $currentImg.get(0).className.match(/rotate-[\w-]*/);
+        if (currentAngle.length > 0){
+            currentAngle = currentAngle[0].replace('rotate-', '');
+            if (currentAngle == ''){
+                currentAngle = 0;
+            } else {
+                currentAngle = parseInt(currentAngle);
+            }
+        } else {
+            currentAngle = 0;
         }
-    });
-}
+    } else {
+        currentAngle = 0;
+    }
+    return currentAngle;
+  }
+
+  function rotateLeft(e){
+    e.preventDefault();
+    rotateImage('left');
+  }
+
+  function rotateRight(e){
+    e.preventDefault();
+    rotateImage('right');
+  }
+
+  function adjustSize($image) {
+    var $container;
+    $container = $image.parent();
+
+    var adjustPosition = false;
+    if ($image.attr('id') == 'main-img') {
+        adjustPosition = true;
+    }
+
+    var containerWidth = $container.innerWidth();
+    var containerHeight = $container.innerHeight();
+    var imageWidth = $image.outerWidth();
+    var imageHeight = $image.outerHeight();
+
+    var horizontal = true;
+    if ($image.hasClass('rotate-90') || $image.hasClass('rotate-270')){
+        horizontal = false;
+    }
+
+    var adjustoToHeight = false;
+    if (horizontal) {
+        if ((imageHeight/imageWidth) > (containerHeight/containerWidth)) {
+            adjustoToHeight = true;
+        }
+    } else {
+        // the image will be vertical, so we need to invert the  width/height values
+        if ((imageWidth/imageHeight) > (containerHeight/containerWidth)) {
+            adjustoToHeight = true;
+        }
+    }
+
+    var newImageWidth;
+    var newImageHeight;
+
+    if (adjustoToHeight) {
+        if (horizontal) {
+            newImageHeight = containerHeight;
+            newImageWidth = newImageHeight * (imageWidth/imageHeight);
+        } else {
+            newImageWidth = containerHeight;
+            newImageHeight = newImageWidth * (imageHeight/imageWidth);
+        }
+    } else {
+        if (horizontal) {
+            newImageWidth = containerWidth;
+            newImageHeight = newImageWidth * (imageHeight/imageWidth);
+        } else {
+            newImageHeight = containerWidth;
+            newImageWidth = newImageHeight * (imageWidth/imageHeight);
+        }
+    }
+    $image.css({'width': newImageWidth+'px', 'height': newImageHeight+'px'});
+
+    if (adjustPosition) {
+        var newImageLeft = 0;
+        var newImageTop = 0;
+        var imageWidthReference = newImageWidth;
+        if (!horizontal) {
+            imageWidthReference = newImageHeight;
+        }
+        if ($image.hasClass('rotate-270')) {
+            newImageTop = newImageWidth;
+            newImageLeft = (containerWidth - imageWidthReference) / 2;
+        } else if ($image.hasClass('rotate-180')) {
+            newImageLeft = (containerWidth - imageWidthReference) / 2;
+        } else if ($image.hasClass('rotate-90')) {
+            newImageLeft = (containerWidth + imageWidthReference) / 2;
+        } else if ($image.hasClass('rotate-0')) {
+            newImageLeft = (containerWidth - imageWidthReference) / 2;
+        }
+        $image.css({'left': newImageLeft+'px', 'top': newImageTop+'px'});
+    }
+  }
+
+  function rotateImage(direction) {
+    var hidding = $('.show-hide-btn').hasClass('hidding');
+    var $currentImg = $('#sortable li img.selected').first();
+    if ($currentImg.length > 0 && (!hidding || (hidding && $currentImg.hasClass('captioned')))) {
+        var currentAngle = currentImageAngle();
+        var newAngle;
+        if (direction == 'left') {
+            newAngle = currentAngle - 90;
+            if (newAngle == -90) {
+                newAngle = 270;
+            }
+        } else {
+            newAngle = currentAngle + 90;
+            if (newAngle == 360) {
+                newAngle = 0;
+            }
+        }
+
+        var imageId = $currentImg.parent().attr('id');
+        $('#rotate_' + imageId).val(newAngle);
+
+        var prefix = "rotate-";
+
+        // thumbnail
+        var classes = $currentImg[0].className.split(" ").filter(function(c) {
+            return c.lastIndexOf(prefix, 0) !== 0;
+        });
+        $currentImg[0].className = classes.join(" ").trim();
+        $currentImg.addClass('rotate-' + newAngle);
+        $currentImg.css({'width': '', 'height': ''});
+        adjustSize($currentImg);
+
+        // large image
+        classes = $('#main-img')[0].className.split(" ").filter(function(c) {
+            return c.lastIndexOf(prefix, 0) !== 0;
+        });
+        $('#main-img')[0].className = classes.join(" ").trim();
+        $('#main-img').addClass('rotate-'+newAngle);
+        $('#main-img').css({'width': '', 'height': ''});
+        adjustSize($('#main-img'));
+    }
+  }
+
   function check_captioned(input) {
     var value = $(input).val().trim();
     var id = $(input).attr('id').replace('caption_', '');
@@ -149,6 +316,12 @@ function post_image_order(image_order) {
     } else {
       $img.removeClass('captioned');
     }
+  }
+
+  function adjustImages() {
+    $('#sortable li img').each(function () {
+      adjustSize($(this));
+    });
   }
 
   function select_first_element_after_load() {
@@ -161,6 +334,7 @@ function post_image_order(image_order) {
     }
     if ($img.length > 0) {
       $img.addClass('selected');
+      adjustSize($('#main-img'));
     }
   }
 
