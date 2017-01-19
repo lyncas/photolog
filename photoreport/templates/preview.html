@@ -17,9 +17,9 @@
     	<div class="col-md-4">
             <ul id="sortable">
             {% for image in images %}
-			  <li id="{{image.id}}" onclick="process_image('{{image.image.url}}', '{{image.id}}', 'false')" style="width:80px;height:50px;"><img class="rotate-0" src="{{image.thumbnail.url}}"></li>
-			 {% endfor %}
-			</ul>
+	       <li id="{{image.id}}" onclick="process_image('{{image.image.url}}', '{{image.id}}', 'false')" style="width:80px;height:50px;"><img class="rotate-0" src="{{image.thumbnail.url}}"></li>
+	     {% endfor %}
+	   </ul>
         </div>
 
     	<div class="col-md-6 col-md-offset-2" style="position: fixed; right: 0px;">
@@ -114,14 +114,17 @@ $( document ).ready(function() {
   }
 
   function process_image(img_url, img_id, initial) {
-    $('#sortable li img').removeClass('selected');
+        $('#sortable li img').removeClass('selected');
   	if (initial == 'true') {
-		  $("#sortable").sortable();
-      $("#sortable").disableSelection();
-  	} else {
+		  
+		$("#sortable").sortable();
+                $("#sortable").disableSelection();
+  	} 
+	else {
   		var itemIds = $( "#sortable" ).sortable('toArray');
   		post_image_order(itemIds);
   	}
+
 
     $('#main-img').attr("src", img_url).load(function() {
         // adjust image size/position after load
