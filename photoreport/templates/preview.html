@@ -6,6 +6,7 @@
 {% block css %}
 <link href="{% static 'css/preview.css' %}" rel="stylesheet">
 <link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
+<link href="{% static 'css/toastr.css' %}" rel="stylesheet">
 {% endblock css %}
 
 {% block content %}
@@ -52,6 +53,7 @@
   <script src="//code.jquery.com/jquery-1.10.2.js"></script>
   <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
   <script src="{% static 'js/csrftoken.js' %}"></script>
+  <script src="{% static 'js/toastr.min.js' %}"></script>
   <script>
 $( document ).ready(function() {
 	process_image("{{first_img.image.url}}", "{{first_img.id}}", 'true');
@@ -114,13 +116,11 @@ $( document ).ready(function() {
   }
 
   function process_image(img_url, img_id, initial) {
-        $('#sortable li img').removeClass('selected');
+    $('#sortable li img').removeClass('selected');
   	if (initial == 'true') {
-		  
-		$("#sortable").sortable();
-                $("#sortable").disableSelection();
-  	} 
-	else {
+		  $("#sortable").sortable();
+      $("#sortable").disableSelection();
+  	} else {
   		var itemIds = $( "#sortable" ).sortable('toArray');
   		post_image_order(itemIds);
   	}
@@ -158,6 +158,9 @@ $( document ).ready(function() {
           success: function(data) {
           	console.log('success');
           	console.log(data);
+          },
+          error: function(data){
+            toastr.error('There was an error processing the request. Please try again.');
           }
       });
   }
