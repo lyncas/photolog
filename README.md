@@ -5,6 +5,14 @@
 3. After saving project, user can generate photo log report.
 4. User can also choose to download tempfile to resume the project later.
 
+#Database Configuration if mysql has not been configured
+1. sudo apt-get update
+2. sudo apt-get install mysql-server
+3. sudo mysql_secure_installation
+4. sudo mysql_install_db
+5. sudo apt-get install mysql-client
+6. sudo apt-get install libmysqlclient-dev
+
 ##Installation
 1. Clone the repo.
 3. pip install -r requirements.txt
