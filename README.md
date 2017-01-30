@@ -13,6 +13,12 @@
 5. sudo apt-get install mysql-client
 6. sudo apt-get install libmysqlclient-dev
 
+#Updating Python 
+1. pip install --upgrade pip 
+2. pip install --upgrade pillow 
+3. sudo apt-get install libjpeg8-dev
+
+
 ##Installation
 1. Clone the repo.
 3. pip install -r requirements.txt
