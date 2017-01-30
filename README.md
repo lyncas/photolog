@@ -29,6 +29,6 @@
 7. View 127.0.0.1:8000 on the local computer or use the ipaddress of the computer to access externally.
 
 ##git instructions:
-git add files 
-git commit -am 'what i changed'
-git push
+1. git add files 
+2. git commit -am 'what i changed'
+3. git push origin master
