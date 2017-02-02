@@ -36,8 +36,8 @@ class Image(models.Model):
             return
 
         # Set our max thumbnail size in a tuple (max width, max height)
-        # preview.html has to be changed for this to work.  
-        thumbnail_size = (80, 80) #120 also looks good
+        # preview.html has to be changed for this to work.
+        thumbnail_size = (80, 80)  # 120 also looks good
 
         # django_type = self.image.file.content_type
 
@@ -85,11 +85,12 @@ class Image(models.Model):
         # to avoid integrity exception
         super(Image, self).save(force_update=force_update)
 
+
 class Project(models.Model):
     name = models.CharField(max_length=200, null=True, blank=True)
     images = models.ManyToManyField(Image)
-    image_order = models.CharField(
-        max_length=1000, validators=[validate_comma_separated_integer_list]
+    image_order = models.TextField(
+        validators=[validate_comma_separated_integer_list]
     )
 
     def __str__(self):
