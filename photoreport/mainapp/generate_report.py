@@ -38,7 +38,7 @@ class DocumentGenerator(object):
 		im = Image.open(img_full_url)
 		(img_width, img_len) = im.size
             	if img_width > img_len:   #wide picture
-			document.add_picture(img_full_url, width=Inches(4.3))
+			document.add_picture(img_full_url, height=Inches(3.25))
             	else: 
 			document.add_picture(img_full_url, width=Inches(2.44))
 		
