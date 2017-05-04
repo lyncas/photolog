@@ -25,7 +25,7 @@ SECRET_KEY = '3zha(%p%1xi=*u*n6ckt+fa+0c047+6)*n@9v6vq8st0c*8wsl'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['localhost', '10.1.1.25', '10.1.1.130', '10.1.1.137', 'photos.pronetgroup.com']
 
 
 # Application definition

@@ -9,9 +9,10 @@
             <div class="header-content-inner">
                 <h1 id="homeHeading">Photo Log Upload</h1>
                 <hr>
-                <p>Create a Zip File containing your photos. </p>
-                <p>No spaces in zipped folders or photo names.</p>
-		<p>Resize photos so each photo is less than 1MB in size.</p>
+		<p>Install <a target="_blank" href="http://www.bricelam.net/ImageResizer">Image Resizer Application</a> on your computer</p>
+		<p>Copy folder of images, right click to resize all images to large size (1920x1080) </a> </p>
+                <p>Verify no spaces in folder or photo names. (i.e. Folder_99, Photo88.JPG) </p>
+		<p>Create a Zip File containing your resized photos (Max is 500 photos) </p>
                 <form class="form-inline" method="POST" action="." enctype='multipart/form-data'>{% csrf_token %}
                     <div class="form-group">
                        {{form.zip_file}}
