@@ -11,14 +11,14 @@
 
 {% block content %}
 <header>
-<div class="container" style="padding-top: 50px; padding-bottom: 50px;">
+<div class="container" style="padding-top: 100px; padding-bottom: 100px;">
     <div class="row">
         <form action="." method="POST">{% csrf_token %}
 
     	<div class="col-md-4">
             <ul id="sortable">
             {% for image in images %}
-	       <li id="{{image.id}}" onclick="process_image('{{image.image.url}}', '{{image.id}}', 'false')" style="width:80px;height:50px;"><img class="rotate-0" src="{{image.thumbnail.url}}"></li>
+	       <li id="{{image.id}}" onclick="process_image('{{image.image.url}}', '{{image.id}}', 'false')" style="width: 80px;height:50px;"><img class="rotate-0" src="{{image.thumbnail.url}}"></li>
 	     {% endfor %}
 	   </ul>
         </div>
@@ -36,9 +36,11 @@
                     <input id="rotate_{{image.id}}" type="hidden" name="rotate_{{image.id}}" value="0">
         		</div>
     		{% endfor %}
+		<p id="p1">default file name</p>
     		<div class="img-container">
 	    		<img id="main-img" src="{{first_img.image.url}}">
     		</div>
+		
       </div>
     		</form>
 
@@ -137,12 +139,14 @@ $( document ).ready(function() {
         $('#main-img').addClass('rotate-'+currentAngle);
         $('#main-img').css({'width': '', 'height': ''});
         adjustSize($('#main-img'));
+	
     });
 
     $(".caption").removeClass("hidden");
   	$(".caption").not("#caption_" + img_id).hide();
   	$("#caption_" + img_id).show();
     $('#sortable li#' + img_id).find('img').addClass('selected');
+    update_file_name(img_url);
   }
 
   function post_image_order(image_order) {
@@ -355,6 +359,7 @@ $( document ).ready(function() {
     if ($firstImg.length > 0) {
       $firstImg.get(0).closest('li').click();
     }
+   
   }
 
   function select_next_element() {
@@ -400,6 +405,9 @@ $( document ).ready(function() {
       }
     }
   }
-
+  function update_file_name(input){
+    var str = input;
+    document.getElementById("p1").innerHTML= str.substring(33);
+    }
   </script>
 {% endblock javascript %}
