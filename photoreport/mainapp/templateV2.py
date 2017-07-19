@@ -159,7 +159,10 @@ def update_xml_content(xml_tree):
             node.text = insured_state
         elif node.text == '#SEX':
             node.text = data_list['CLIENT INFORMATION/'] #should update list export on database
-            print "Exported template-output.docx for File # " + data_list['FILENO.']
+	    if is_florida:
+                print "Exported template-output-fl.docx for File # " + data_list['FILENO.']
+	    else:
+	        print "Exported template-output.docx for File # " + data_list['FILENO.']	
         elif node.text == '#INS_NAME':
             node.text = data_list['CLIENT INFORMATION/CONTACTFIRST NAME'].upper() + ' ' + data_list['CLIENT INFORMATION/CONTACTLAST NAME'].upper()
         elif node.text == '#file_no':
@@ -201,6 +204,12 @@ def update_footer_xml(xml_tree):
             node.text = data_list['FILENO.']
     return xml_tree
 
+def is_florida():
+    insured_state = states[data_list['INSURED INFORMATION/ST']]
+    if insured_state=='Florida':
+	return True
+    else:
+	return False
 
 def _write_and_close_docx(testDoc, xml_tree, xml_footer2_tree, xml_footer1_tree, outDoc):
     """
@@ -242,8 +251,13 @@ def gen_docx(excel_fname):
     # Get client info and insured info
     make_client_insured_info(excel_fname)
     #testDoc = settings.STATIC_ROOT+'template.docx'
-    testDoc = 'mainapp/static/template.docx'
-    outputDoc = 'template-output.docx'
+    is_flo=is_florida()
+    if is_flo:
+	testDoc = 'mainapp/static/template-FL.docx'
+        outputDoc = 'template-putput-fl.docx'
+    else:
+	 testDoc = 'mainapp/static/template.docx'
+         outputDoc = 'template-output.docx'
 
     # Get footer2 content from test.docx
     xml_footer2_content = get_footer2_xml(testDoc)

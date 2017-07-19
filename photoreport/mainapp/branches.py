@@ -105,7 +105,7 @@ phoenix = {
     "Address": "16000 North 80th Street",
     "Suite": "Suite A",
     "City": "Scottsdale, Arizona 85260",
-    "Phone": "480.996.7560 (phone)",
+    "Phone": "480.636.7560 (phone)",
     "Cert": "Cert. of Registration No. 16779-0",
     "Agency": "Agency No. 1622409"
 }
@@ -120,6 +120,15 @@ tampa = {
     "Agency": "License No. A 2600267"
 }
 
+south_carolina = {
+    "Name": "NEW ORLEANS",
+    "Address": "3900 North Causeway Blvd.",
+    "Suite": "Suite 1200",
+    "City": "Metairie, Louisiana 70002",
+    "Phone": "504.833.8309 (phone)",
+    "Cert": "Cert. of Authorization No. 4499",
+    "Agency": " "
+}
 
 branchDict = {
     "ATL": atlanta,
@@ -129,7 +138,7 @@ branchDict = {
     "HOU": houston,
     "LAS": vegas,
     "NOR": orleans,
-    "NPB": newport,
+    "LAX": newport,
     "OKL": oklahoma,
     "ORL": orlando,
     "PHX": phoenix,

@@ -23,7 +23,10 @@ mnb = {
     "FL": "69744",
     "GA": "34966",
     "NM": "21120",
-    "TX": "123742",   
+    "TX": "123742",
+    "WY": "15876",
+    "ID": "17049",
+    "WA": "54187",
     }
 
 dhb = {
@@ -45,7 +48,7 @@ dhb = {
     }
 
 mac = {
-    "Name": "Marc Camacho",
+    "Name": "Marc A. Camacho",
     "Title": "P.E.",
     "Area": "Civil",
     "TX": "114209",
@@ -70,6 +73,7 @@ jcd = {
     "Area": "Civil",
     "AL": "34560",
     "FL": "78038",
+    "GA": "029217",
     "IL": "081-006468",
     "LA": "40762",
     "MS": "27364",
@@ -83,6 +87,13 @@ sag = {
     "Title": "P.E.",
     "Area": "Civil",
     "FL": "77004",
+    }
+
+drg = {
+    "Name": "Donal R. Green",
+    "Title": "P.E.",
+    "Area": "Civil",
+    "TX": "77140",
     }
 
 tdg = {
@@ -167,6 +178,13 @@ tmp = {
     "TX": "122346",
     }
 
+ddr = {
+    "Name": "Dana D. Race",
+    "Title": "P.E.",
+    "Area": "Civil",
+    "FL": "59051",
+    }
+
 ajs = {
     "Name": "Armando J. Selva",
     "Title": "P.E.",
@@ -179,10 +197,17 @@ ajs = {
     }
 
 jjs = {
-    "Name": "Jake J. Smith",
+    "Name": "James J. Smith",
     "Title": "P.E.",
     "Area": "Civil",
     "FL": "57598",
+    }
+
+kaw = {
+    "Name": "Kevin A. Wasli",
+    "Title": "P.E.",
+    "Area": "Civil",
+    "CO": "27084",
     }
 
 eet = {
@@ -190,6 +215,13 @@ eet = {
     "Title": "P.E.",
     "Area": "Civil",
     "FL": "80338",
+    }
+
+mav = {
+    "Name": "Mauricio A. Velez",
+    "Title": "P.E.",
+    "Area": "Civil",
+    "FL": "77413",
     }
 
 lmu = {
@@ -224,7 +256,7 @@ jbw = {
     }
 
 rlw = {
-    "Name": "Robert L. Wilson",
+    "Name": "Robert L. Wilson, Jr.",
     "Title": "P.E.",
     "Area": "Civil",
     "FL": "38041",
@@ -232,7 +264,7 @@ rlw = {
 
 
 plw = {
-    "Name": "Philip W. Witherington",
+    "Name": "Philip L. Witherington",
     "Title": "P.E.",
     "Area": "Civil",
     "AL": "29073",
@@ -244,6 +276,42 @@ plw = {
     "TX": "103078",
     }
 
+tsh = {
+    "Name": "Timothy S. Hull",
+    "Title": "P.E.",
+    "Area": "Civil",
+    "OK": "28297",
+    }
+
+law = {
+    "Name": "Lawrence J. Williams",
+    "Title": "P.E.",
+    "Area": "Civil",
+    "CO": "50929",
+    }
+
+cbr = {
+    "Name": "Chester B. Rainwater",
+    "Title": "P.E.",
+    "Area": "Mechanical",
+    "FL": "75310",
+    }
+
+rl = {
+    "Name": "Ronny Lindsay",
+    "Title": "P.E.",
+    "Area": "Civil",
+    "FL": "83407",
+    }
+
+zas = {
+    "Name": "Zbigniew A. Szewczyk",
+    "Title": "P.E.",
+    "Area": "Civil",
+    "GA": "039632",
+    "FL": "82605",
+    }
+
 engineers = {
     "JRB" : jrb,
     "RSB" : rsb,
@@ -253,6 +321,7 @@ engineers = {
     "YC"  : yc,
     "JCD" : jcd,
     "SAG" : sag,
+    "DRG" : drg,
     "TDG" : tdg,
     "RAG" : rag,
     "BCH" : bch,
@@ -261,13 +330,20 @@ engineers = {
     "TJM" : tjm,
     "AP"  : ap,
     "TMP" : tmp,
+    "DDR" : ddr,
     "AJS" : ajs,
     "JJS" : jjs,
     "EET" : eet,
     "LMU" : lmu,
+    "MAV" : mav,
     "JBW" : jbw,
     "RLW" : rlw,
     "PLW" : plw,
+    "KAW" : kaw,
+    "LAW" : law,
+    "CBR" : cbr,
+    "RL"  : rl,
+    "ZAS" : zas,
     
 }
 
