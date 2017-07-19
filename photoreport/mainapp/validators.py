@@ -18,3 +18,12 @@ def validate_image_extension(value):
     ]
     if not ext.lower() in valid_extensions:
         raise ValidationError(u'Unsupported file extension.')
+
+def validate_excel_extension(value):
+    ext = os.path.splitext(value.name)[1]  # [0] returns path+filename
+    valid_extensions = [
+        '.xls'
+    ]
+    if not ext.lower() in valid_extensions:
+        raise ValidationError(u'Unsupported file extension.')
+

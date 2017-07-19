@@ -1,8 +1,30 @@
 from django import forms
 import json
 from zipfile import ZipFile
+import xlrd
+from .models import InputFile,InputXls
 
-from .models import InputFile
+
+
+class InputExcelForm(forms.ModelForm):
+    xls_file = forms.FileField(
+        widget=forms.ClearableFileInput(
+            attrs={
+                'label': 'Select Input .xls File (no spaces in the file name)',
+                'class': u'btn btn-primary btn-xl page-scroll',
+                'placeholder': u'Enter Your .xls File',
+                'accept': "application/xls"
+            }
+        )
+    )
+    class Meta:
+        model = InputXls
+        fields = (
+            'xls_file',
+        )
+    def clean_xls_file(self):
+	xls_file=self.cleaned_data['xls_file']
+	return xls_file
 
 
 class InputForm(forms.ModelForm):
@@ -16,12 +38,12 @@ class InputForm(forms.ModelForm):
             }
         )
     )
-
+    data = forms.HiddenInput()
     class Meta:
         model = InputFile
         fields = (
-            'zip_file',
-        )
+           'zip_file',
+       )
 
     def clean_zip_file(self):
         myfile = self.cleaned_data['zip_file']

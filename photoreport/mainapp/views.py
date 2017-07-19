@@ -9,12 +9,13 @@ from datetime import datetime
 from django.http import HttpResponse, HttpResponseRedirect
 from io import BytesIO
 from PIL import Image as PImage
+from zipfile import ZipFile,ZipInfo
 import json
-
+from docx import Document
 from .generate_report import DocumentGenerator
-from .forms import InputForm, TempFileForm
-from .models import InputFile, Image
-
+from .forms import InputForm, TempFileForm, InputExcelForm
+from .models import InputFile, Image, InputXls
+from templateV2 import *
 
 class LandingInputFileCreateView(FormView):
     """Module for landing page and accepting input zip file of photos."""
@@ -53,6 +54,57 @@ class TempFileResumeView(FormView):
         context = super(TempFileResumeView, self).get_context_data(
             **kwargs)
         return context
+
+
+class UploadFileView(FormView):
+    """Module for landing page and accepting input zip file of photos."""
+    form_class = InputExcelForm
+    template_name = 'template.html'
+    def get_success_url(self, *args, **kwargs):
+        input_id = str(self.obj.id)
+        return reverse_lazy('download', kwargs={'input_id': input_id})
+
+    def form_valid(self, form):
+        result = form.save()
+        self.obj = result
+        return super(UploadFileView, self).form_valid(form)
+
+    def get_context_data(self, **kwargs):
+        context = super(UploadFileView, self).get_context_data(
+            **kwargs)
+        return context
+
+
+class DownloadDocView(View):
+    template_name='download.html'
+
+    def get_context_data(self, **kwargs):
+        context = {}
+        return context    
+
+    def get(self, request, *args, **kwargs):
+        input_id = self.kwargs.get('input_id')
+        input_file = get_object_or_404(InputXls, id=int(input_id))
+        download_file = request.GET.get('download', False)
+	if download_file:
+	    file_xls=input_file.get_xls()
+            file_name=gen_docx(file_xls.path)
+	    doc=Document(file_name)
+	    os.remove(file_name)
+	    f = BytesIO()
+            doc.save(f)
+            length = f.tell()
+            f.seek(0)
+            res = HttpResponse(
+                f.getvalue(),
+                content_type='application/vnd.openxmlformats' +
+                '-officedocument.wordprocessingml.document'
+            )
+            res['Content-Disposition'] = 'attachment; filename=' + \
+                file_name
+            res['Content-Length'] = length
+            return res
+	return render(request, self.template_name, self.get_context_data())
 
 
 class PhotoPreview(View):
@@ -126,7 +178,7 @@ class ReportGenView(View):
 
         generate_report = request.GET.get('generate', False)
         download_tempfile = request.GET.get('tempfile', False)
-        today_date = datetime.today().strftime('%Y-%m-%d')
+        today_date = datetime.date.today().strftime('%Y-%m-%d')
         if generate_report:
             gen = DocumentGenerator()
             file_name = project.name.replace(' ', '_') + '_' + today_date + '_PhotoLog.docx'
@@ -155,3 +207,5 @@ class ReportGenView(View):
             res['Content-Disposition'] = 'attachment; filename=' + file_name
             return res
         return render(request, self.template_name, self.get_context_data())
+
+

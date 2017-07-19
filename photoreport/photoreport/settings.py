@@ -25,7 +25,7 @@ SECRET_KEY = '3zha(%p%1xi=*u*n6ckt+fa+0c047+6)*n@9v6vq8st0c*8wsl'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['localhost', '10.1.1.25', '10.1.1.130', '10.1.1.137', 'photos.pronetgroup.com']
+ALLOWED_HOSTS = ['localhost','127.0.0.1', '10.1.1.25', '10.1.1.130', '10.1.1.137','10.1.1.135','10.1.1.140', 'photos.pronetgroup.com']
 
 
 # Application definition
@@ -128,6 +128,7 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.10/howto/static-files/
 STATIC_URL = '/static/'
+STATIC_ROOT=BASE_DIR+'/static/'
 
 MEDIA_ROOT = BASE_DIR + '/media/'
 

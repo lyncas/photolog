@@ -21,7 +21,7 @@ from django.conf.urls.static import static
 from mainapp.views import (
     LandingInputFileCreateView,
     PhotoPreview, ReportGenView,
-    TempFileResumeView
+    TempFileResumeView,UploadFileView,DownloadDocView
 )
 from mainapp.api import ProjectImageOrderUpdate
 
@@ -30,6 +30,7 @@ urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^$', LandingInputFileCreateView.as_view(), name='landing'),
     url(r'^resume/$', TempFileResumeView.as_view(), name='tempfile'),
+    url(r'^template/$', UploadFileView.as_view(),name='template'),
     url(
         r'^preview/(?P<input_id>[-\w]+)/$',
         PhotoPreview.as_view(), name='preview'
@@ -41,5 +42,9 @@ urlpatterns = [
     url(
         regex=r'^success/(?P<pk>[-\d]+)/$',
         view=ReportGenView.as_view(), name='success'
+    ),
+    url(
+        r'^template/download/(?P<input_id>[-\w]+)/$',
+        DownloadDocView.as_view(), name='download'
     ),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

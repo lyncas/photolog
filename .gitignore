@@ -90,3 +90,6 @@ ENV/
 photoenv/
 photoreport/media/
 photoreport/details.txt
+photoreport/**/template.docx
+changedFiles.zip
+

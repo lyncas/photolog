@@ -8,8 +8,9 @@ from io import BytesIO
 from PIL import Image as PImage
 from django.core.files.uploadedfile import SimpleUploadedFile
 import os
+import xlrd
 
-from .validators import validate_file_extension, validate_image_extension
+from .validators import validate_file_extension, validate_image_extension, validate_excel_extension
 
 
 class Image(models.Model):
@@ -117,6 +118,9 @@ class InputFile(models.Model):
     )
     project = models.ForeignKey(Project, blank=True, null=True)
 
+    def get_zip(self):
+	return self.zip_file
+
     def __str__(self):
         return str(self.id)
 
@@ -156,3 +160,13 @@ class InputFile(models.Model):
         self.project = project
         self.save()
         return self.project
+
+class InputXls(models.Model):
+    xls_file = models.FileField(
+        upload_to="xlsinput/%Y-%m-%d", validators=[validate_excel_extension]
+    )
+    def __str__(self):
+        return str(self)
+    def get_xls(self):
+	return self.xls_file
+

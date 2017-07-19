@@ -1,0 +1,26 @@
+{% extends "temp_base.html" %}
+{% load staticfiles i18n %}
+
+{% block title %}Gen & Download{% endblock title %}
+
+{% block css %}
+<link href="{% static 'css/template_gen.css' %}" rel="stylesheet">
+{% endblock css %}
+
+{% block content %}
+    <header>
+        <div class="header-content">
+            <div class="header-content-inner">
+                <h1 id="homeHeading">Ready</h1>
+                <hr>
+                <p>Generate and download formated template doc</p>
+	              <a class="btn btn-success btn-xl" href="?download=true">
+	                 Generate & download doc
+	              </a>
+            </div>
+        </div>
+    </header>
+{% endblock content %}
+
+{% block javascript %}
+{% endblock javascript %}

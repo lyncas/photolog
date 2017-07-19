@@ -10,7 +10,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>{% block title %}{% endblock title %} | Photo Report Generator</title>
+    <title>{% block title %}{% endblock title %} | Template Doc Generator</title>
 
     <!-- Bootstrap Core CSS -->
     <link href="{% static 'vendor/bootstrap/css/bootstrap.min.css' %}" rel="stylesheet">
@@ -24,7 +24,7 @@
     <link href="{% static 'vendor/magnific-popup/magnific-popup.css' %}" rel="stylesheet">
 
     <!-- Theme CSS -->
-    <link href="{% static 'css/creative.min.css' %}" rel="stylesheet">
+    <link href="{% static 'css/template_gen.css' %}" rel="stylesheet">
     {% block css %} {% endblock %}
 
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
@@ -52,11 +52,8 @@
             <!-- Collect the nav links, forms, and other content for toggling -->
             <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                 <ul class="nav navbar-nav navbar-right">
-                    <li>
-                        <a class="page-scroll" href="{% url 'tempfile' %}">Resume Project</a>
-                    </li>
                     <li> 
-			<a class="page-scroll" href="{% url 'landing' %}">New Upload</a> 
+			<a class="page-scroll" href="{% url 'template' %}">New Template Upload</a> 
 		    
 		    </li>
 		</ul>
