@@ -3,16 +3,17 @@ import xlrd
 import json
 from docx import Document
 import datetime
-dict_list = []
+
 
 
 def read_from_excel(fname):
-    global dict_list
+    dict_list = []
     #fname = join(dirname(dirname(abspath(__file__))), 'template_1', 'project-List.xls')
 
     # Open the workbook
     xl_workbook = xlrd.open_workbook(fname)
     print ('Imported Project List ' )
+    #print fname
 
     # List sheet names, and pull a sheet by name
     sheet_names = xl_workbook.sheet_names()

@@ -80,6 +80,7 @@ class DownloadDocView(View):
 
     def get_context_data(self, **kwargs):
         context = {}
+	#context['path']=get_object_or_404(InputXls, id=int(self.kwargs.get('input_id'))).get_xls().path
         return context    
 
     def get(self, request, *args, **kwargs):
@@ -88,9 +89,11 @@ class DownloadDocView(View):
         download_file = request.GET.get('download', False)
 	if download_file:
 	    file_xls=input_file.get_xls()
-            file_name=gen_docx(file_xls.path)
-	    doc=Document(file_name)
-	    os.remove(file_name)
+	    #print file_xls.path
+            file_name =gen_docx(file_xls.path)
+	    #doc=Document(file_name)
+	    fle=open(file_name,'rb')
+	    doc=Document(fle)
 	    f = BytesIO()
             doc.save(f)
             length = f.tell()
@@ -103,6 +106,9 @@ class DownloadDocView(View):
             res['Content-Disposition'] = 'attachment; filename=' + \
                 file_name
             res['Content-Length'] = length
+	    fle.close()
+	    os.remove(file_name)
+	    
             return res
 	return render(request, self.template_name, self.get_context_data())
 
