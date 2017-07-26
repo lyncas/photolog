@@ -253,8 +253,8 @@ def gen_docx(excel_fname):
     make_client_insured_info(excel_fname)
     #testDoc = settings.STATIC_ROOT+'template.docx'
     if is_florida:
-	testDoc = 'mainapp/static/template-FL.docx'
-        outputDoc = 'template-output-fl.docx'
+	testDoc = 'mainapp/static/DOC-Templates/template-FL-'+data_list['PROJMGR']+'.docx'
+        outputDoc = 'template-output-fl-'+data_list['PROJMGR']+'.docx'
     else:
 	 testDoc = 'mainapp/static/template.docx'
          outputDoc = 'template-output.docx'

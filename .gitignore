@@ -93,3 +93,4 @@ photoreport/details.txt
 photoreport/**/template.docx
 photoreport/**/template-FL.docx
 photoreport/mainapp/migrations/
+photoreport/**/*.docx
