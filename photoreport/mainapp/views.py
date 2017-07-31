@@ -16,6 +16,9 @@ from .generate_report import DocumentGenerator
 from .forms import InputForm, TempFileForm, InputExcelForm
 from .models import InputFile, Image, InputXls
 from templateV2 import *
+from get_info_excel import *
+from people import *
+from branches import *
 
 class LandingInputFileCreateView(FormView):
     """Module for landing page and accepting input zip file of photos."""
@@ -77,9 +80,10 @@ class UploadFileView(FormView):
 
 class DownloadDocView(View):
     template_name='download.html'
-
+    style='ST'
     def get_context_data(self, **kwargs):
         context = {}
+
 	#context['path']=get_object_or_404(InputXls, id=int(self.kwargs.get('input_id'))).get_xls().path
         return context    
 
@@ -90,7 +94,7 @@ class DownloadDocView(View):
 	if download_file:
 	    file_xls=input_file.get_xls()
 	    #print file_xls.path
-            file_name =gen_docx(file_xls.path)
+            file_name =gen_docx(file_xls.path,self.style)
 	    #doc=Document(file_name)
 	    fle=open(file_name,'rb')
 	    doc=Document(fle)

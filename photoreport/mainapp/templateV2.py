@@ -248,16 +248,16 @@ def _write_and_close_docx(testDoc, xml_tree, xml_footer2_tree, xml_footer1_tree,
     # Clean up the temp dir
     shutil.rmtree(tmp_dir)
 
-def gen_docx(excel_fname):
+def gen_docx(excel_fname,style):
     # Get client info and insured info
     make_client_insured_info(excel_fname)
     #testDoc = settings.STATIC_ROOT+'template.docx'
     if is_florida:
-	testDoc = 'mainapp/static/DOC-Templates/template-FL-'+data_list['PROJMGR']+'.docx'
-        outputDoc = 'template-output-fl-'+data_list['PROJMGR']+'.docx'
+	testDoc = 'mainapp/static/DOC-Templates/FL-'+str(style)+'/'+'template-FL-'+str(style)+'-'+data_list['PROJMGR']+'.docx'
+        outputDoc = 'template-output-fl-'+str(style)+'-'+data_list['PROJMGR']+'.docx'
     else:
-	 testDoc = 'mainapp/static/template.docx'
-         outputDoc = 'template-output.docx'
+	 testDoc = 'mainapp/static/DOC-Templates/GEN-'+str(style)+'/'+'template-'+str(style)+'.docx'
+         outputDoc = 'template-output-'+str(style)+'.docx'
 
     # Get footer2 content from test.docx
     xml_footer2_content = get_footer2_xml(testDoc)
