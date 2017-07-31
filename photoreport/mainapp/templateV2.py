@@ -95,7 +95,9 @@ def _check_element_is(element, type_char):
 
 def format_date(date, form):
     """shift format of date to two formats"""
-    if form == 'short':
+    if date== u'':
+	return ' '
+    elif form == 'short':
         return datetime.datetime.strptime(date, '%Y-%m-%d').strftime('%m/%d/%y')
     else:
         return datetime.datetime.strptime(date, '%Y-%m-%d').strftime('%B %d, %Y')
