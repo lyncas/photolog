@@ -16,7 +16,7 @@ from .generate_report import DocumentGenerator
 from .forms import InputForm, TempFileForm, InputExcelForm
 from .models import InputFile, Image, InputXls
 from templateV2 import *
-from get_info_excel import *
+from get_info_excel import read_from_excel
 from people import *
 from branches import *
 
@@ -80,21 +80,32 @@ class UploadFileView(FormView):
 
 class DownloadDocView(View):
     template_name='download.html'
-    style='ST'
+    styles=['ST','LT']
     def get_context_data(self, **kwargs):
         context = {}
-
-	#context['path']=get_object_or_404(InputXls, id=int(self.kwargs.get('input_id'))).get_xls().path
+	path=get_object_or_404(InputXls, id=int(self.kwargs.get('input_id'))).get_xls().path
+	
+	data_lists=read_from_excel(path)
+	data_list=data_lists[0]
+	eng = data_list['PROJMGR']
+	context['state']=states[data_list['INSURED INFORMATION/ST']]
+	context['name']=engineers[eng]["Name"]
+	context['job_number']=data_list['FILENO.']
+	context['client']=data_list['CLIENT INFORMATION/CLIENT']
+	context['insured']=data_list['INSURED INFORMATION/INSURED']
+	context['descrpt']=data_list['DESCRIPTION']
+	context['styles']=self.styles
         return context    
 
     def get(self, request, *args, **kwargs):
         input_id = self.kwargs.get('input_id')
         input_file = get_object_or_404(InputXls, id=int(input_id))
         download_file = request.GET.get('download', False)
+	style=request.GET.get('style',self.styles[0])
 	if download_file:
 	    file_xls=input_file.get_xls()
 	    #print file_xls.path
-            file_name =gen_docx(file_xls.path,self.style)
+            file_name =gen_docx(file_xls.path,style)
 	    #doc=Document(file_name)
 	    fle=open(file_name,'rb')
 	    doc=Document(fle)

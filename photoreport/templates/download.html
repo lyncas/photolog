@@ -4,7 +4,7 @@
 {% block title %}Gen & Download{% endblock title %}
 
 {% block css %}
-<link href="{% static 'css/template_gen.css' %}" rel="stylesheet">
+<link href="{% static 'css/download.css' %}" rel="stylesheet">
 {% endblock css %}
 
 {% block content %}
@@ -13,14 +13,43 @@
             <div class="header-content-inner">
                 <h1 id="homeHeading">Ready</h1>
                 <hr>
-                <p>Generate and download formated template doc</p>
-	              <a class="btn btn-success btn-xl" href="?download=true">
-	                 Generate & download doc
-	              </a>
+		<p>Engineer's Name: {{name}}</P>
+		<p>State: {{state}}</p>
+		<p>Job #: {{job_number}}</p>
+		<p>Client: {{client}}</p>
+		<p>Insured: {{insured}}</p>
+		<p>Description: {{descrpt}}</p>
+		<p>Ouput Doc Style:
+		    <select id="styleSelect" name="style">
+		    {% for style in styles %}
+			<option value="{{style}}">{{style}}</option>
+		    {% endfor %}
+		    </select>
+		</p>
+		<div class="row">
+		    <a class="btn btn-primary btn-xl" onclick="update_href(event);">
+		        Confirm Info & update style
+		    </a>
+		    <a id="finalize" class="btn btn-success btn-xl" href="?download=true">
+	                Generate & download doc
+	            </a>
+	        </div>
             </div>
         </div>
     </header>
 {% endblock content %}
 
 {% block javascript %}
+  <script>
+function get_style(){
+    var e =document.getElementById("styleSelect");
+    var style = e.value;
+    return style;}
+function get_href(){
+    var ret_value = "?download=true&style="+ get_style();
+    return ret_value;}
+function update_href(e){
+    e.preventDefault();
+    document.getElementById("finalize").href=get_href();}
+  </script>
 {% endblock javascript %}
