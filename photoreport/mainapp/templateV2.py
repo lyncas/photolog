@@ -102,6 +102,10 @@ def format_date(date, form):
     else:
         return datetime.datetime.strptime(date, '%Y-%m-%d').strftime('%B %d, %Y')
 
+def get_footer_date():
+    date=datetime.date.today()
+    return date.strftime("%B XX, %Y")
+
 def update_xml_content(xml_tree):
     """
     Modify the document content.
@@ -188,7 +192,7 @@ def update_xml_content(xml_tree):
         elif node.text == '#CERT':
             node.text = branchDict[data_list['BRH']]["Cert"]
         elif node.text == '#AGENCY':
-            node.text = branchDict[data_list['BRH']]["Agency"]           
+            node.text = branchDict[data_list['BRH']]["Agency"]
         else:
             pass
 
@@ -204,6 +208,10 @@ def update_footer_xml(xml_tree):
     for node in iter_text(xml_tree):
         if node.text == '#file_no':
             node.text = data_list['FILENO.']
+	elif node.text == '#FOOTER_DATE':
+	    node.text = get_footer_date()
+	else:
+	    pass 
     return xml_tree
 
 def is_florida():
@@ -255,10 +263,10 @@ def gen_docx(excel_fname,style):
     make_client_insured_info(excel_fname)
     #testDoc = settings.STATIC_ROOT+'template.docx'
     if is_florida:
-	testDoc = 'mainapp/static/DOC-Templates/FL-'+str(style)+'/'+'template-FL-'+str(style)+'-'+data_list['PROJMGR']+'.docx'
+	testDoc = 'mainapp/static/DOC-Templates/FL-'+str(style)+'/template-'+data_list['PROJMGR']+'.docx'
         outputDoc = 'template-output-fl-'+str(style)+'-'+data_list['PROJMGR']+'.docx'
     else:
-	 testDoc = 'mainapp/static/DOC-Templates/GEN-'+str(style)+'/'+'template-'+str(style)+'.docx'
+	 testDoc = 'mainapp/static/DOC-Templates/GEN-'+str(style)+'/'+'template.docx'
          outputDoc = 'template-output-'+str(style)+'.docx'
 
     # Get footer2 content from test.docx

@@ -80,13 +80,14 @@ class UploadFileView(FormView):
 
 class DownloadDocView(View):
     template_name='download.html'
-    styles=['ST','LT']
+    styles=['standard','letter']
     def get_context_data(self, **kwargs):
         context = {}
 	path=get_object_or_404(InputXls, id=int(self.kwargs.get('input_id'))).get_xls().path
 	
 	data_lists=read_from_excel(path)
 	data_list=data_lists[0]
+	print(data_list)
 	eng = data_list['PROJMGR']
 	context['state']=states[data_list['INSURED INFORMATION/ST']]
 	context['name']=engineers[eng]["Name"]

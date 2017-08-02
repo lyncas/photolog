@@ -66,10 +66,10 @@ def read_from_excel(fname):
                                                                               xl_workbook.datemode)))[:10]
                 d.update({keys[col_index]: time_excel})
             else:
-                if xl_sheet.cell(row_index, col_index).value == 'TX':
-                    d.update({keys[col_index]: 'Texas'})
-                else:
-                    d.update({keys[col_index]: xl_sheet.cell(row_index, col_index).value})
+               # if xl_sheet.cell(row_index, col_index).value == 'TX':
+               #     d.update({keys[col_index]: 'Texas'})
+               # else:
+               d.update({keys[col_index]: xl_sheet.cell(row_index, col_index).value})
         dict_list.append(d)
 
     #print dict_list #debugging imported data print
