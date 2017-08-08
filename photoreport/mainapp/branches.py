@@ -14,8 +14,8 @@ austin = {
     "Suite": "Suite 900",
     "City": "Austin, Texas 78701",
     "Phone": "800.216.7268 (phone)",
-    "Cert": " ",
-    "Agency": " "
+    "Cert": "Cert. of Registration No. F-3089",
+    "Agency": "Agency No. A06273"
 }
 
 dallas = {

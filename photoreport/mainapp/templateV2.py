@@ -215,9 +215,9 @@ def update_footer_xml(xml_tree):
     return xml_tree
 
 def is_florida():
-    insured_state = states[data_list['INSURED INFORMATION/ST']]
+    insured_state = data_list['INSURED INFORMATION/ST']
     #print insured_state
-    if insured_state=='Florida':
+    if insured_state=='FL':
 	return True
     else:
 	return False
@@ -261,8 +261,7 @@ def _write_and_close_docx(testDoc, xml_tree, xml_footer2_tree, xml_footer1_tree,
 def gen_docx(excel_fname,style):
     # Get client info and insured info
     make_client_insured_info(excel_fname)
-    #testDoc = settings.STATIC_ROOT+'template.docx'
-    if is_florida:
+    if is_florida():
 	testDoc = 'mainapp/static/DOC-Templates/FL-'+str(style)+'/template-'+data_list['PROJMGR']+'.docx'
         outputDoc = 'template-output-fl-'+str(style)+'-'+data_list['PROJMGR']+'.docx'
     else:
