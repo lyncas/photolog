@@ -17,24 +17,26 @@
 1. pip install --upgrade pip 
 2. pip install --upgrade pillow 
 3. sudo apt-get install libjpeg8-dev
-
+4. pip install xlrd orbit python-docx docx2txt
 
 ##Installation
 1. Clone the repo.
 2. pip install -r requirements.txt
 3. sudo mysql -p
 4. create database photoreport;
-5. exit();
+5. exit;
 6. update mysql credentials in photoreport/settings.py line 80.
 
 ##Running the server
 1. python manage.py makemigrations
 2. python manage.py migrate
 3. python manage.py runserver 
-3.optional   python manage.py runserver 0.0.0.0:8000      (allows computers external to access) 
-4. View 127.0.0.1:8000 on the local computer or use the ipaddress of the computer to access externally.
+4.optional   python manage.py runserver 0.0.0.0:8000      (allows computers external to access) 
+5. View 127.0.0.1:8000 on the local computer or use the ipaddress of the computer to access externally.
 
-##git instructions:
-1. git add files 
-2. git commit -am 'what i changed'
-3. git push origin master
+##git quick instructions:
+%: git clone repoAddress 
+%: git pull origin
+%: git add files 
+%: git commit -am 'what i changed'
+%: git push origin master
