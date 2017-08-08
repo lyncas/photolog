@@ -92,5 +92,5 @@ photoreport/media/
 photoreport/details.txt
 photoreport/**/template.docx
 photoreport/**/template-FL.docx
-photoreport/mainapp/migrations/
+photoreport/mainapp/migrations/000**
 photoreport/**/*.docx
