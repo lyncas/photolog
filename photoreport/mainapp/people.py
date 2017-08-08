@@ -4,6 +4,9 @@ jrb = {
     "Area": "Civil",
     "AZ": "62911",
     "CA": "45494",
+    "NV": "024206",
+    "WA": "54504",
+    "TX": "124520",
     }
 
 rsb = {
@@ -79,7 +82,7 @@ jcd = {
     "MS": "27364",
     "SC": "32250",
     "TN": "118077",
-    "TN": "102999",        
+    "TX": "102999",
     }
 
 sag = {
@@ -97,7 +100,7 @@ drg = {
     }
 
 tdg = {
-    "Name": "Tim D. Greeson",
+    "Name": "Timothy D. Greeson",
     "Title": "P.E.",
     "Area": "Civil",
     "TX": "106022",
@@ -281,27 +284,21 @@ tsh = {
     "Title": "P.E.",
     "Area": "Civil",
     "OK": "28297",
+    "AZ": "43921",
+    "NV": "17800",
+    "UT": "272044",
+    "CA": "C60015",
+    "KS": "21757",
+    "TX": "116360",
+    "NM": "17891",
     }
 
-law = {
+ljw = {
     "Name": "Lawrence J. Williams",
     "Title": "P.E.",
     "Area": "Civil",
     "CO": "50929",
-    }
-
-cbr = {
-    "Name": "Chester B. Rainwater",
-    "Title": "P.E.",
-    "Area": "Mechanical",
-    "FL": "75310",
-    }
-
-rl = {
-    "Name": "Ronny Lindsay",
-    "Title": "P.E.",
-    "Area": "Civil",
-    "FL": "83407",
+    "NV": "22497",
     }
 
 zas = {
@@ -310,6 +307,44 @@ zas = {
     "Area": "Civil",
     "GA": "039632",
     "FL": "82605",
+    }
+
+dvb = {
+    "Name": "Doru V. Botic",
+    "Title": "P.E.",
+    "Area": "Civil",
+    "TX": "123855",
+    "CA": "75554",
+    "OR": "91253PE",
+    "WA": "53544",
+    }
+
+pjg = {
+    "Name": "Peter J. Glismann",
+    "Title": "P.E.",
+    "Area": "Civil",
+    "TX": "111205",
+    }
+
+rjg = {
+    "Name": "Ronald J. Goff",
+    "Title": "P.E.",
+    "Area": "Civil",
+    "CO": "PE.0041418",
+    }
+
+jcw = {
+    "Name": "Jason C. Womack",
+    "Title": "P.E.",
+    "Area": "Civil",
+    "TX": "80323",
+    }
+
+rl = {
+    "Name": "Ronny Lindsay",
+    "Title": "P.E.",
+    "Area": "Civil",
+    "FL": "83407",
     }
 
 engineers = {
@@ -340,12 +375,15 @@ engineers = {
     "RLW" : rlw,
     "PLW" : plw,
     "KAW" : kaw,
-    "LAW" : law,
-    "CBR" : cbr,
-    "RL"  : rl,
+    "LJW" : ljw,
+    "TSH" : tsh,
     "ZAS" : zas,
+    "DVB" : dvb,
+    "PJG" : pjg,
+    "RJG" : rjg,
+    "JCW" : jcw,
+    
     
 }
-
 
 
