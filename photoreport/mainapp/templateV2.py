@@ -165,7 +165,7 @@ def update_xml_content(xml_tree):
             node.text = insured_state
         elif node.text == '#SEX':
             node.text = data_list['CLIENT INFORMATION/'] #should update list export on database
-	    if is_florida:
+	    if is_florida():
                 print "Exported template-output-fl.docx for File # " + data_list['FILENO.']
 	    else:
 	        print "Exported template-output.docx for File # " + data_list['FILENO.']	
