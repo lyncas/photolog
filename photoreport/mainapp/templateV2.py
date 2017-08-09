@@ -150,6 +150,7 @@ def update_xml_content(xml_tree):
     client_zip = data_list['CLIENT INFORMATION/ZIPCODE']
     
     for node in iter_text(xml_tree):
+	print(node.text)
         if node.text =='#ENGINEER_NAME':
             node.text = engineers[eng]["Name"]
         elif node.text =='#ENG_TITLE':
