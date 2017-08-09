@@ -56,6 +56,25 @@ def get_footer1_xml(docx_filename):
     xml_content = zip.read('word/footer1.xml')
     return xml_content
 
+def get_header1_xml(docx_filename):
+    """
+    Get xml string from xml file.
+    :param xml_string:
+    :return:
+    """
+    zip = zipfile.ZipFile(docx_filename)
+    xml_content = zip.read('word/header1.xml')
+    return xml_content
+
+def get_header2_xml(docx_filename):
+    """
+    Get xml string from xml file.
+    :param xml_string:
+    :return:
+    """
+    zip = zipfile.ZipFile(docx_filename)
+    xml_content = zip.read('word/header2.xml')
+    return xml_content
 
 def get_xml_tree(xml_string):
     """
@@ -211,18 +230,42 @@ def update_footer_xml(xml_tree):
 	elif node.text == '#FOOTER_DATE':
 	    node.text = get_footer_date()
 	else:
-	    pass 
+	    pass
+    return xml_tree 
+
+def update_header_xml(xml_tree):
+    """
+    Modify the footer infomation.
+    :param xml_tree:
+    :return:
+    """
+    for node in iter_text(xml_tree):
+	if node.text == '#SEX':
+	    node.text = data_list['CLIENT INFORMATION/']
+	elif node.text == '#CONTACT_NAME':
+	    node.text = data_list['CLIENT INFORMATION/CONTACTFIRST NAME'] + ' ' + data_list['CLIENT INFORMATION/CONTACTLAST NAME']
+	elif node.text == '#CLIENT_NAME':
+            node.text = data_list['CLIENT INFORMATION/CLIENT']
+	elif node.text == '#file_no':
+            node.text = data_list['FILENO.']
+	else:
+	    pass
     return xml_tree
 
 def is_florida():
+    """
+    Determine if the state is florida
+    :param:
+    :return:
+    """
     insured_state = data_list['INSURED INFORMATION/ST']
-    #print insured_state
+    print insured_state
     if insured_state=='FL':
 	return True
     else:
 	return False
 
-def _write_and_close_docx(testDoc, xml_tree, xml_footer2_tree, xml_footer1_tree, outDoc):
+def _write_and_close_docx(testDoc, xml_tree, xml_footer2_tree, xml_footer1_tree, xml_header1_tree, xml_header2_tree, outDoc):
     """
         Create a temp directory, expand the original docx zip.
         Write the modified xml to word/document.xml
@@ -246,6 +289,16 @@ def _write_and_close_docx(testDoc, xml_tree, xml_footer2_tree, xml_footer1_tree,
     with open(os.path.join(tmp_dir, 'word/footer1.xml'), 'w') as f:
         xml_footer_str = etree.tostring(update_footer_xml(xml_footer1_tree))
         f.write(xml_footer_str)
+    
+    # Write update header info to header2.xml
+    with open(os.path.join(tmp_dir, 'word/header2.xml'), 'w') as f:
+        xml_header_str = etree.tostring(update_header_xml(xml_header2_tree))
+        f.write(xml_header_str)
+
+    # Write update header info to header1.xml
+    with open(os.path.join(tmp_dir, 'word/header1.xml'), 'w') as f:
+        xml_header_str = etree.tostring(update_header_xml(xml_header1_tree))
+        f.write(xml_header_str)
 
     # Get a list of all the files in the original docx zipfile
     filenames = zip.namelist()
@@ -261,18 +314,25 @@ def _write_and_close_docx(testDoc, xml_tree, xml_footer2_tree, xml_footer1_tree,
 def gen_docx(excel_fname,style):
     # Get client info and insured info
     make_client_insured_info(excel_fname)
-    if is_florida():
+
+    if data_list['INSURED INFORMATION/ST']=='FL':
 	testDoc = 'mainapp/static/DOC-Templates/FL-'+str(style)+'/template-'+data_list['PROJMGR']+'.docx'
         outputDoc = 'template-output-fl-'+str(style)+'-'+data_list['PROJMGR']+'.docx'
     else:
 	 testDoc = 'mainapp/static/DOC-Templates/GEN-'+str(style)+'/'+'template.docx'
          outputDoc = 'template-output-'+str(style)+'.docx'
-
+    
     # Get footer2 content from test.docx
     xml_footer2_content = get_footer2_xml(testDoc)
 
     # Get footer1 content from test.docx
     xml_footer1_content = get_footer1_xml(testDoc)
+
+    # Get header2 content from test.docx
+    xml_header2_content = get_header2_xml(testDoc)
+
+    # Get header1 content from test.docx
+    xml_header1_content = get_header1_xml(testDoc)
 
     # Get doc content from test.docx
     xml_content = get_word_xml(testDoc)
@@ -281,8 +341,11 @@ def gen_docx(excel_fname,style):
     xml_tree = get_xml_tree(xml_content)
     xml_footer2_tree = get_xml_tree(xml_footer2_content)
     xml_footer1_tree = get_xml_tree(xml_footer1_content)
-
+    xml_header2_tree = get_xml_tree(xml_header2_content)
+    xml_header1_tree = get_xml_tree(xml_header1_content)
+    if str(style)=='letter':
+	xml_header2_tree=xml_header1_tree
     # Modify and save doc
-    _write_and_close_docx(testDoc, xml_tree, xml_footer2_tree, xml_footer1_tree, outputDoc)
+    _write_and_close_docx(testDoc, xml_tree, xml_footer2_tree, xml_footer1_tree, xml_header2_tree, xml_header1_tree, outputDoc)
     return outputDoc
      

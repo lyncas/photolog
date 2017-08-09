@@ -103,13 +103,13 @@ class DownloadDocView(View):
         input_file = get_object_or_404(InputXls, id=int(input_id))
         download_file = request.GET.get('download', False)
 	style=request.GET.get('style',self.styles[0])
+
 	if download_file:
 	    file_xls=input_file.get_xls()
 	    #print file_xls.path
             file_name =gen_docx(file_xls.path,style)
-	    #doc=Document(file_name)
-	    fle=open(file_name,'rb')
-	    doc=Document(fle)
+	    doc=Document(file_name)
+
 	    f = BytesIO()
             doc.save(f)
             length = f.tell()
@@ -122,7 +122,6 @@ class DownloadDocView(View):
             res['Content-Disposition'] = 'attachment; filename=' + \
                 file_name
             res['Content-Length'] = length
-	    fle.close()
 	    os.remove(file_name)
 	    
             return res
