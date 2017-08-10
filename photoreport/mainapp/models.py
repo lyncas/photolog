@@ -166,7 +166,7 @@ class InputXls(models.Model):
         upload_to="xlsinput/%Y-%m-%d", validators=[validate_excel_extension]
     )
     def __str__(self):
-        return str(self)
+        return str(self.id)
     def get_xls(self):
 	return self.xls_file
 
