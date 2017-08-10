@@ -73,6 +73,8 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'photoreport.wsgi.application'
 
+# Redirect to landing url after login
+LOGIN_REDIRECT_URL = '/'
 
 # Database
 # https://docs.djangoproject.com/en/1.10/ref/settings/#databases

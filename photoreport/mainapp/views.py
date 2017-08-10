@@ -19,8 +19,9 @@ from templateV2 import *
 from get_info_excel import read_from_excel
 from people import *
 from branches import *
+from django.contrib.auth.mixins import LoginRequiredMixin
 
-class LandingInputFileCreateView(FormView):
+class LandingInputFileCreateView(LoginRequiredMixin, FormView):
     """Module for landing page and accepting input zip file of photos."""
     form_class = InputForm
     template_name = 'landing.html'
@@ -40,7 +41,7 @@ class LandingInputFileCreateView(FormView):
         return context
 
 
-class TempFileResumeView(FormView):
+class TempFileResumeView(LoginRequiredMixin, FormView):
     """Module for accepting tempfile to resume project."""
     template_name = 'tempfile.html'
     form_class = TempFileForm
@@ -59,7 +60,7 @@ class TempFileResumeView(FormView):
         return context
 
 
-class UploadFileView(FormView):
+class UploadFileView(LoginRequiredMixin, FormView):
     """Module for landing page and accepting input zip file of photos."""
     form_class = InputExcelForm
     template_name = 'template.html'
@@ -78,7 +79,7 @@ class UploadFileView(FormView):
         return context
 
 
-class DownloadDocView(View):
+class DownloadDocView(LoginRequiredMixin, View):
     template_name='download.html'
     styles=['standard','letter']
     def get_context_data(self, **kwargs):
@@ -128,7 +129,7 @@ class DownloadDocView(View):
 	return render(request, self.template_name, self.get_context_data())
 
 
-class PhotoPreview(View):
+class PhotoPreview(LoginRequiredMixin, View):
     template_name = 'preview.html'
 
     def get_context_data(self, **kwargs):
@@ -185,7 +186,7 @@ class PhotoPreview(View):
         )
 
 
-class ReportGenView(View):
+class ReportGenView(LoginRequiredMixin, View):
     template_name = 'success.html'
 
     def get_context_data(self, **kwargs):
