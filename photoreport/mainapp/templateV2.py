@@ -150,13 +150,21 @@ def update_xml_content(xml_tree):
     client_zip = data_list['CLIENT INFORMATION/ZIPCODE']
     
     for node in iter_text(xml_tree):
-	print(node.text)
         if node.text =='#ENGINEER_NAME':
-            node.text = engineers[eng]["Name"]
+	    try:
+                node.text = engineers[eng]["Name"]
+	    except:
+		node.text = "ERROR ENGINEER NAME NOT FOUND"
         elif node.text =='#ENG_TITLE':
-            node.text = engineers[eng]["Title"]
+	    try:
+                node.text = engineers[eng]["Title"]
+	    except:
+		node.text = "ERROR TITLE NOT FOUND"
         elif node.text =='#LIC_NUM':
-            node.text = engineers[eng][data_list['INSURED INFORMATION/ST']] #stays in abbreviated form        
+	    try:
+                node.text = engineers[eng][data_list['INSURED INFORMATION/ST']] #stays in abbreviated form
+	    except:
+		node.text = "ERROR LICENSE NOT FOUND"        
         elif node.text == '#CLIENT':
             node.text = data_list['CLIENT INFORMATION/CLIENT'].upper()
         elif node.text == '#CLIENT_NAME':
