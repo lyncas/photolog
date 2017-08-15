@@ -58,7 +58,7 @@
 		    {% if user.is_authenticated %}
                         <li>
                             <div class="dropdown">
-				<button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">Account
+				<button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown" style="margin-top: 10px;">Account
 				<span class="carret"></span></button>
 				<ul class="dropdown-menu">
 				    <li><a href="{% url 'logout'%}?next={{request.path}}">Logout</a></li>

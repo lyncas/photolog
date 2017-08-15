@@ -34,6 +34,17 @@
 4.optional   python manage.py runserver 0.0.0.0:8000      (allows computers external to access) 
 5. View 127.0.0.1:8000 on the local computer or use the ipaddress of the computer to access externally.
 
+##Accessing the site
+1. python manage.py createsuperuser
+2. View site and login in using superuser credentials
+
+##Adding more users
+1. go to <base url>/admin/
+2. login in using superuser credentials
+3. under AUTHENTICATION AND AUTHORIZATION, in the Users row click +add
+4. enter new user name and password
+5. add permissions and personal info where relavent
+
 ##git quick instructions:
 %: git clone repoAddress 
 %: git pull origin
