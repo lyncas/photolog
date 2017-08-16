@@ -25,7 +25,7 @@ def make_client_insured_info(excel_fname):
 
 def get_word_xml(docx_filename):
     """
-    Get xml content from source docx file.
+    Get xml content from source docx file by treating the document as a zip file
     :param docx_filename:
     :return:
     """
@@ -167,26 +167,40 @@ def update_xml_content(xml_tree):
 		node.text = "ERROR LICENSE NOT FOUND"        
         elif node.text == '#CLIENT':
             node.text = data_list['CLIENT INFORMATION/CLIENT'].upper()
+	elif node.text == '#client':
+	    node.text = data_list['CLIENT INFORMATION/CLIENT']
         elif node.text == '#CLIENT_NAME':
             node.text = data_list['CLIENT INFORMATION/CLIENT']
         elif node.text == '#CLIENT_ADDRESS':
             node.text = client_addr.upper()
+	elif node.text == '#client_address':
+            node.text = client_addr
         elif node.text == '#CLIENT_CITY_ST_ZIP':
             node.text = client_city.upper() + ", " + client_state.upper() + " " + client_zip.upper()
+	elif node.text == '#client_city_st_zip':
+            node.text = client_city + ", " + client_state + " " + client_zip
         elif node.text == '#CONTACT_NAME':
             node.text = data_list['CLIENT INFORMATION/CONTACTFIRST NAME'] + ' ' + data_list['CLIENT INFORMATION/CONTACTLAST NAME']
         elif node.text == '#CONTACT_PHONE':
             node.text = data_list['CLIENT INFORMATION/PHONE #'].upper()
+	elif node.text == '#contact_phone':
+            node.text = data_list['CLIENT INFORMATION/PHONE #']
         elif node.text == '#CLAIM_NUM':
             node.text = data_list['INSURED INFORMATION/CLAIM/PO #'].upper()
+	elif node.text == '#claim_num':
+            node.text = data_list['INSURED INFORMATION/CLAIM/PO #']
         elif node.text == '#INSURED_NAME':
             node.text = insured_name.upper()
-        elif node.text == '#INS_NAME':
+        elif node.text == '#insured_name':
             node.text = insured_name
         elif node.text == '#LOSS_ADDRESS':
             node.text = insured_addr.upper()
+	elif node.text == '#loss_address':
+            node.text = insured_addr
         elif node.text == '#LOSS_CITY_ST_ZIP':
             node.text = insured_city.upper() + ', ' + insured_state.upper() + " " + insured_zip
+	elif node.text == '#loss_city_st_zip':
+            node.text = insured_city + ', ' + insured_state + " " + insured_zip
         elif node.text == '#LOSS_CITY_ST':
             node.text = insured_addr + ' in ' +insured_city + ', '+insured_state
         elif node.text == '#LOSS_STATE':
@@ -199,6 +213,8 @@ def update_xml_content(xml_tree):
 	        print "Exported template-output.docx for File # " + data_list['FILENO.']	
         elif node.text == '#INS_NAME':
             node.text = data_list['CLIENT INFORMATION/CONTACTFIRST NAME'].upper() + ' ' + data_list['CLIENT INFORMATION/CONTACTLAST NAME'].upper()
+	elif node.text == '#ins_name':
+            node.text = data_list['CLIENT INFORMATION/CONTACTFIRST NAME'] + ' ' + data_list['CLIENT INFORMATION/CONTACTLAST NAME']
         elif node.text == '#file_no':
             node.text = data_list['FILENO.']
         elif node.text == '#DOL':
@@ -284,6 +300,8 @@ def _write_and_close_docx(testDoc, xml_tree, xml_footer2_tree, xml_footer1_tree,
     tmp_dir = tempfile.mkdtemp()
     zip = zipfile.ZipFile(testDoc)
     zip.extractall(tmp_dir)
+    
+
 
     # Write updated info to document.xml
     with open(os.path.join(tmp_dir, 'word/document.xml'), 'w') as f:
@@ -313,6 +331,7 @@ def _write_and_close_docx(testDoc, xml_tree, xml_footer2_tree, xml_footer1_tree,
     filenames = zip.namelist()
 
     # Now, create the new zip file and add all the filex into the archive
+    # the archive theen becomes a word docx
     with zipfile.ZipFile(outDoc, "w") as docx:
         for filename in filenames:
             docx.write(os.path.join(tmp_dir, filename), filename)
@@ -325,11 +344,19 @@ def gen_docx(excel_fname,style):
     make_client_insured_info(excel_fname)
 
     if data_list['INSURED INFORMATION/ST']=='FL':
-	testDoc = 'mainapp/static/DOC-Templates/FL-'+str(style)+'/template-'+data_list['PROJMGR']+'.docx'
-        outputDoc = 'template-output-fl-'+str(style)+'-'+data_list['PROJMGR']+'.docx'
+	if str(style)=='letter':
+	    testDoc = 'mainapp/static/DOC-Templates/GEN-'+str(style)+'/template.docx'
+	    outputDoc = 'template-output-fl-'+str(style)+'-'+data_list['PROJMGR']+'.docx'
+	else:
+	    testDoc = 'mainapp/static/DOC-Templates/FL-'+str(style)+'/template-'+data_list['PROJMGR']+'.docx'
+	    outputDoc = 'template-output-fl-'+str(style)+'-'+data_list['PROJMGR']+'.docx'
     else:
-	 testDoc = 'mainapp/static/DOC-Templates/GEN-'+str(style)+'/'+'template.docx'
-         outputDoc = 'template-output-'+str(style)+'.docx'
+	if str(style)=='letter':
+	    testDoc = 'mainapp/static/DOC-Templates/GEN-'+str(style)+'/template.docx'
+	    outputDoc = 'template-output-fl-'+str(style)+'.docx'
+	else:
+	    testDoc = 'mainapp/static/DOC-Templates/GEN-'+str(style)+'/template.docx'
+	    outputDoc = 'template-output-fl-'+str(style)+'.docx'
     
     # Get footer2 content from test.docx
     xml_footer2_content = get_footer2_xml(testDoc)
@@ -352,8 +379,6 @@ def gen_docx(excel_fname,style):
     xml_footer1_tree = get_xml_tree(xml_footer1_content)
     xml_header2_tree = get_xml_tree(xml_header2_content)
     xml_header1_tree = get_xml_tree(xml_header1_content)
-    if str(style)=='letter':
-	xml_header2_tree=xml_header1_tree
     # Modify and save doc
     _write_and_close_docx(testDoc, xml_tree, xml_footer2_tree, xml_footer1_tree, xml_header2_tree, xml_header1_tree, outputDoc)
     return outputDoc
