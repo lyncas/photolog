@@ -49,7 +49,13 @@ class InputForm(forms.ModelForm):
         myfile = self.cleaned_data['zip_file']
         archive = ZipFile(myfile, 'r')
         photos = archive.namelist()
+	file_size=0
         for photo in photos:
+	    file_size=file_size+1
+	    if file_size>500:
+		raise forms.ValidationError(
+		    "File must contain 500 or less photos."
+		)
             # check if folders/photos name have spaces
             if len(photo.split()) > 1 or photo.strip() != photo:
                 raise forms.ValidationError(
