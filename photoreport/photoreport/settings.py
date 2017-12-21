@@ -25,7 +25,7 @@ SECRET_KEY = '3zha(%p%1xi=*u*n6ckt+fa+0c047+6)*n@9v6vq8st0c*8wsl'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['localhost','127.0.0.1', '10.1.1.25', '10.1.1.130', '10.1.1.137','10.1.1.135','10.1.1.140', 'photos.pronetgroup.com']
+ALLOWED_HOSTS = ['localhost','127.0.0.1', '10.1.1.25', '10.1.1.130', '10.1.1.137','10.1.1.135','10.1.1.140','10.1.1.129','10.1.1.139','photos.pronetgroup.com']
 
 
 # Application definition
@@ -74,7 +74,7 @@ TEMPLATES = [
 WSGI_APPLICATION = 'photoreport.wsgi.application'
 
 # Redirect to landing url after login
-LOGIN_REDIRECT_URL = '/'
+#LOGIN_REDIRECT_URL = '/'
 
 # Database
 # https://docs.djangoproject.com/en/1.10/ref/settings/#databases
@@ -87,12 +87,21 @@ DATABASES = {
             'init_command': "SET sql_mode='STRICT_TRANS_TABLES'",
         },
         'USER': 'root',
-        'PASSWORD': 'sugar',
+        'PASSWORD': 'Disco2018?',
         'HOST': '',
         'PORT': ''
     }
 }
 
+LOGGING={}
+
+LOGGING_CONFIG=u'logging.config.dictConfig'
+
+#LOGIN_REDIRECT_URL 	
+
+#u'/accounts/profile/'
+
+#LOGIN_URL
 
 # Password validation
 # https://docs.djangoproject.com/en/1.10/ref/settings/#auth-password-validators

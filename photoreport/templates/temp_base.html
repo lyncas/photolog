@@ -55,7 +55,7 @@
                     <li> 
 			<a class="page-scroll" href="{% url 'template' %}">New Template</a> 
 		    </li>
-		    {% if user.is_authenticated %}
+		   <!-- {% if user.is_authenticated %}
                         <li>
                             <div class="dropdown">
 				<button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown" style="margin-top: 10px;">Account
@@ -68,7 +68,7 @@
                         <li>
                             <a class="page-scroll" href="{% url 'login'%}?next={{request.path}}">Login</a>
 			</li>
-		    {% endif %} 
+		    {% endif %}--> 
 		</ul>
             </div>
             <!-- /.navbar-collapse -->
