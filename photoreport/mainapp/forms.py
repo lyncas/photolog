@@ -52,14 +52,14 @@ class InputForm(forms.ModelForm):
 	file_size=0
         for photo in photos:
 	    file_size=file_size+1
-	    if file_size>500:
+	    if file_size>499:
 		raise forms.ValidationError(
-		    "File must contain 500 or less photos."
+		    "ZIP FILE MUST HAVE LESS THAN 500 PHOTOS!!!"
 		)
             # check if folders/photos name have spaces
             if len(photo.split()) > 1 or photo.strip() != photo:
                 raise forms.ValidationError(
-                    "Zipped folders or photo names must not contain spaces."
+                    "ZIPPED FOLDERS OR PHOTO NAMES MUST NOT CONTAIN SPACES!!!"
                 )
         valid_extensions = [
             '.png', '.jpg', '.JPG', '.gif', '.bmp', '.jpeg', '.JPEG'
