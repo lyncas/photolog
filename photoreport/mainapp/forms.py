@@ -71,7 +71,7 @@ class InputForm(forms.ModelForm):
 	num_photos=len(valid_files)
  	if num_photos>499:
  	    raise forms.ValidationError(
-                "ZIPPED FOLDERS OR PHOTO NAMES MUST NOT CONTAIN SPACES!!!"
+                "ZIP FILE MUST HAVE LESS THAN 500 PHOTOS!!!"
             )
         if not valid_files:
             raise forms.ValidationError(
