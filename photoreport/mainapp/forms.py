@@ -52,10 +52,10 @@ class InputForm(forms.ModelForm):
 	file_size=0
         for photo in photos:
 	    file_size=file_size+1
-	    if file_size>499:
-		raise forms.ValidationError(
-		    "ZIP FILE MUST HAVE LESS THAN 500 PHOTOS!!!"
-		)
+	    #if file_size>499:
+		#raise forms.ValidationError(
+		 #   "ZIP FILE MUST HAVE LESS THAN 500 PHOTOS!!!"
+		#)
             # check if folders/photos name have spaces
             if len(photo.split()) > 1 or photo.strip() != photo:
                 raise forms.ValidationError(
@@ -68,6 +68,11 @@ class InputForm(forms.ModelForm):
             i for i in photos if '.' +
             i.split('.')[-1] in valid_extensions
         ]
+	num_photos=len(valid_files)
+ 	if num_photos>499:
+ 	    raise forms.ValidationError(
+                "ZIPPED FOLDERS OR PHOTO NAMES MUST NOT CONTAIN SPACES!!!"
+            )
         if not valid_files:
             raise forms.ValidationError(
                 "Image not found in zip."
