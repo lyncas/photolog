@@ -14,25 +14,28 @@
 <div class="container" style="padding-top: 100px; padding-bottom: 100px;">
     <div class="row">
         <form action="." method="POST">{% csrf_token %}
-
     	<div class="col-md-4">
             <ul id="sortable">
+	    
             {% for image in images %}
+
 	       <li id="{{image.id}}" onclick="process_image('{{image.image.url}}', '{{image.id}}', 'false')" style="width: 80px;height:50px;"><img class="rotate-0" src="{{image.thumbnail.url}}"></li>
-	     {% endfor %}
-	   </ul>
+	    {% endfor %}
+	    
+	    </ul>
         </div>
+
 
     	<div class="col-md-6 col-md-offset-2" style="position: fixed; right: 0px;">
             <h3 align="left"> Project Number </h3>
             <input type="text" name="project" placeholder="Type Project Number here" class="form-control" style="width: 30%; color: black; " {% if project.name %} value="{{project.name}}" {% endif %}>
             <button class="btn btn-info" style="margin-top: 20px; margin-bottom: 20px;" onclick="rotateLeft(event);">Rotate Left</button>
             <button class="btn btn-info" style="margin-top: 20px; margin-bottom: 20px;" onclick="rotateRight(event);">Rotate Right</button>
-            <button class="btn btn-success" style="margin-top: 20px; margin-bottom: 20px;" onclick="$('form').submit();">Finalize / Save</button>
+            <button class="btn btn-success" style="margin-top: 20px; margin-bottom: 20px;" onclick="save_and_submit();">Finalize / Save</button>
             <button class="btn btn-warning show-hide-btn" style="margin-top: 20px; margin-bottom: 20px;" onclick="update_imgs(this, event)">Hide Uncaptioned Photos</button>
 		{% for image in images %}
         		<div class="form-group">
-        			<input id="caption_{{image.id}}" type="text" class="form-control caption hidden" name="caption_{{image.id}}" style="color: black;" placeholder="Write caption for this image ..." {% if image.caption %} value="{{image.caption}}" {% endif %}>
+        			<input id="caption_{{image.id}}" type="text" class="form-control caption hidden" name="caption_{{image.id}}" style="color: black;" placeholder="Write caption for this image ..." {% if image.caption %} value="{{image.caption}}" {% else %} value=""{% endif %}>
                     <input id="rotate_{{image.id}}" type="hidden" name="rotate_{{image.id}}" value="0">
         		</div>
     		{% endfor %}
@@ -60,7 +63,7 @@
 $( document ).ready(function() {
 	process_image("{{first_img.image.url}}", "{{first_img.id}}", 'true');
 
-  // check if input fields are cpationed
+  // check if input fields are captioned
   $('input[id^="caption_"]').each(function () {
     check_captioned(this);
   });
@@ -70,11 +73,32 @@ $( document ).ready(function() {
     check_captioned(this);
   });
 
+  $('li').mouseup(function() {
+    /*$('input[id^="caption_"]').each(function () {
+      var temp =$(this).val();
+      $(this).val('bleh');
+      $(this).val(temp);
+      check_captioned(this);
+    });*/
+    //select_current_element();
+    
+    //t=setTimeout(post_image_order(itemIds),500);
+    //setTimeout(function() {console.log("hello World");post_image_order(itemIds);},10000);
+    //var i=0;
+    //while(i<5000){i++;console.log("");}//delays the function
+    //var itemIds = $( "#sortable" ).sortable('toArray');
+    //post_image_order(itemIds);
+  });
+  
+
   adjustImages();
 
   select_first_element_after_load();
 
   $("body").keydown(function(e) {
+    $('input[id^="caption_"]').each(function () {
+      check_captioned(this);
+    });
     var $focused = $(':focus');
     if ($focused.length == 0 || $focused.get(0).tagName.toLowerCase() != 'input') {
       // prevent arrow functionality if focus is on input text
@@ -108,7 +132,7 @@ $( document ).ready(function() {
         }
       })
       $btn.html('Show Uncaptioned Photos');
-
+      
       // select the first photo if the current photo got hide
       $currentImg = $('#sortable li img.selected').first();
       if ($currentImg.length == 0 || !$currentImg.hasClass('captioned')) {
@@ -120,11 +144,12 @@ $( document ).ready(function() {
   function process_image(img_url, img_id, initial) {
     $('#sortable li img').removeClass('selected');
   	if (initial == 'true') {
-		  $("#sortable").sortable();
-      $("#sortable").disableSelection();
-  	} else {
-  		var itemIds = $( "#sortable" ).sortable('toArray');
-  		post_image_order(itemIds);
+            $("#sortable").sortable();
+            $("#sortable").disableSelection();
+  	} 
+	else {
+  	    var itemIds = $( "#sortable" ).sortable('toArray');
+            post_image_order(itemIds);
   	}
 
 
@@ -146,6 +171,10 @@ $( document ).ready(function() {
   	$(".caption").not("#caption_" + img_id).hide();
   	$("#caption_" + img_id).show();
     $('#sortable li#' + img_id).find('img').addClass('selected');
+    
+    //var test =document.getElementById("caption_"+img_id).value;
+    //console.log(test);
+    //document.getElementById("caption_"+img_id).value=test;
     update_file_name(img_url);
   }
 
@@ -218,7 +247,6 @@ $( document ).ready(function() {
     if ($image.hasClass('rotate-90') || $image.hasClass('rotate-270')){
         horizontal = false;
     }
-
     var adjustoToHeight = false;
     if (horizontal) {
         if ((imageHeight/imageWidth) > (containerHeight/containerWidth)) {
@@ -405,9 +433,32 @@ $( document ).ready(function() {
       }
     }
   }
+  function select_current_element() {
+    var hidding = $('.show-hide-btn').hasClass('hidding');
+    $currentImg = $('#sortable li img.selected').first();
+    if ($currentImg.length == 0 || (hidding && !$currentImg.hasClass('captioned'))) {
+      // no selected images or selected image is hidden
+      select_first_element();
+      } 
+    else {
+      var $imgs;
+      if (hidding) {
+        $imgs = $('#sortable li img.captioned');
+      } else {
+        $imgs = $('#sortable li img');
+      }
+      var idx = $imgs.index($currentImg.get(0));
+      $imgs[idx].closest('li').click();
+      }
+  }
   function update_file_name(input){
     var str = input;
     document.getElementById("p1").innerHTML= str.substring(33);
+    }
+  function save_and_submit(){
+    var itemIds = $( "#sortable" ).sortable('toArray');
+    post_image_order(itemIds);
+    $('form').submit();
     }
   </script>
 {% endblock javascript %}

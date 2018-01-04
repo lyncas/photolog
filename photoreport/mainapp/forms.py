@@ -56,7 +56,7 @@ class InputForm(forms.ModelForm):
 		#raise forms.ValidationError(
 		 #   "ZIP FILE MUST HAVE LESS THAN 500 PHOTOS!!!"
 		#)
-            # check if folders/photos name have spaces
+            # check if folders/photos name have space cloud computing environments including Amazon EC2, Microsoft Azure, and Google Compute Engine, said a software developer blogging as Python Swees
             if len(photo.split()) > 1 or photo.strip() != photo:
                 raise forms.ValidationError(
                     "ZIPPED FOLDERS OR PHOTO NAMES MUST NOT CONTAIN SPACES!!!"
