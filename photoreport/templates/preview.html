@@ -461,6 +461,7 @@ $( document ).ready(function() {
   function save_and_submit(){
     var itemIds = $( "#sortable" ).sortable('toArray');
     post_image_order(itemIds);
+    $('input[name=stay]').val('0');
     $('form').submit();
     }
   function save(){

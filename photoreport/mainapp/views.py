@@ -182,13 +182,14 @@ class PhotoPreview(View):
                 img.save()
             elif key == 'stay':
                 stay = value[0]
-        if not stay:
+        print("the value of stay = "+stay)
+        if stay=='1':
             return HttpResponseRedirect(
-                reverse_lazy('success', kwargs={'pk': input_file.id})
+                reverse_lazy('preview',kwargs={'input_id': input_file.id})
             )
         else:
             return HttpResponseRedirect(
-                reverse_lazy('preview',kwargs={'input_id': input_file.id})
+                reverse_lazy('success', kwargs={'pk': input_file.id})
             )
 
 
