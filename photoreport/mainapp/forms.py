@@ -49,13 +49,7 @@ class InputForm(forms.ModelForm):
         myfile = self.cleaned_data['zip_file']
         archive = ZipFile(myfile, 'r')
         photos = archive.namelist()
-	file_size=0
         for photo in photos:
-	    file_size=file_size+1
-	    #if file_size>499:
-		#raise forms.ValidationError(
-		 #   "ZIP FILE MUST HAVE LESS THAN 500 PHOTOS!!!"
-		#)
             # check if folders/photos name have space cloud computing environments including Amazon EC2, Microsoft Azure, and Google Compute Engine, said a software developer blogging as Python Swees
             if len(photo.split()) > 1 or photo.strip() != photo:
                 raise forms.ValidationError(

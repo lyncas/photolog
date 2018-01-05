@@ -14,6 +14,7 @@
 <div class="container" style="padding-top: 100px; padding-bottom: 100px;">
     <div class="row">
         <form action="." method="POST">{% csrf_token %}
+        
     	<div class="col-md-4">
             <ul id="sortable">
 	    
@@ -28,10 +29,11 @@
 
     	<div class="col-md-6 col-md-offset-2" style="position: fixed; right: 0px;">
             <h3 align="left"> Project Number </h3>
-            <input type="text" name="project" placeholder="Type Project Number here" class="form-control" style="width: 30%; color: black; " {% if project.name %} value="{{project.name}}" {% endif %}>
-            <button class="btn btn-info" style="margin-top: 20px; margin-bottom: 20px;" onclick="rotateLeft(event);">Rotate Left</button>
-            <button class="btn btn-info" style="margin-top: 20px; margin-bottom: 20px;" onclick="rotateRight(event);">Rotate Right</button>
-            <button class="btn btn-success" style="margin-top: 20px; margin-bottom: 20px;" onclick="save_and_submit();">Finalize / Save</button>
+            <input type="text" name="project" placeholder="Type Project Number here" class="form-control" style="width: 45%; color: black; " {% if project.name %} value="{{project.name}}" {% endif %}>
+            <button class="btn btn-info" style="margin-top: 20px; margin-bottom: 20px;" onclick="rotateLeft(event);">Rotate L</button>
+            <button class="btn btn-info" style="margin-top: 20px; margin-bottom: 20px;" onclick="rotateRight(event);">Rotate R</button>
+            <button class="btn btn-success" style="margin-top: 20px; margin-bottom: 20px;" onclick="save();">Save</button>
+            <button class="btn btn-success" style="margin-top: 20px; margin-bottom: 20px;" onclick="save_and_submit();">Finalize</button>
             <button class="btn btn-warning show-hide-btn" style="margin-top: 20px; margin-bottom: 20px;" onclick="update_imgs(this, event)">Hide Uncaptioned Photos</button>
 		{% for image in images %}
         		<div class="form-group">
@@ -44,7 +46,8 @@
 	    		<img id="main-img" src="{{first_img.image.url}}">
     		</div>
 		
-      </div>
+         </div>
+         <input id="stay" type="hidden" name="stay" value="0"></input>
     		</form>
 
     </div>
@@ -458,6 +461,12 @@ $( document ).ready(function() {
   function save_and_submit(){
     var itemIds = $( "#sortable" ).sortable('toArray');
     post_image_order(itemIds);
+    $('form').submit();
+    }
+  function save(){
+    var itemIds = $( "#sortable" ).sortable('toArray');
+    post_image_order(itemIds);
+    $('input[name=stay]').val('1');
     $('form').submit();
     }
   </script>

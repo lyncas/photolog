@@ -151,6 +151,7 @@ class PhotoPreview(View):
 
     def post(self, request, *args, **kwargs):
         data = dict(request.POST)
+	stay = 0
         for key, value in data.items():
             if key == 'csrfmiddlewaretoken':
                 continue
@@ -179,10 +180,16 @@ class PhotoPreview(View):
                     except:
                         pass
                 img.save()
-
-        return HttpResponseRedirect(
-            reverse_lazy('success', kwargs={'pk': input_file.id})
-        )
+            elif key == 'stay':
+                stay = value[0]
+        if not stay:
+            return HttpResponseRedirect(
+                reverse_lazy('success', kwargs={'pk': input_file.id})
+            )
+        else:
+            return HttpResponseRedirect(
+                reverse_lazy('preview',kwargs={'input_id': input_file.id})
+            )
 
 
 class ReportGenView(View):
