@@ -10,12 +10,12 @@
 {% endblock css %}
 
 {% block content %}
-<header>
+<header style="overflow: hidden;">
 <div class="container" style="padding-top: 100px; padding-bottom: 100px;">
     <div class="row">
         <form action="." method="POST">{% csrf_token %}
         
-    	<div class="col-md-4">
+    	<div class="col-md-4" style="overflow-y: auto; height: 911px; width: 50%;">
             <ul id="sortable">
 	    
             {% for image in images %}
@@ -27,7 +27,7 @@
         </div>
 
 
-    	<div class="col-md-6 col-md-offset-2" style="position: fixed; right: 0px;">
+    	<div class="col-md-6" style="width: 50%;">
             <h3 align="left"> Project Number </h3>
             <input type="text" name="project" placeholder="Type Project Number here" class="form-control" style="width: 45%; color: black; " {% if project.name %} value="{{project.name}}" {% endif %}>
             <button class="btn btn-info" style="margin-top: 20px; margin-bottom: 20px;" onclick="rotateLeft(event);">Rotate L</button>
@@ -456,7 +456,10 @@ $( document ).ready(function() {
   }
   function update_file_name(input){
     var str = input;
-    document.getElementById("p1").innerHTML= str.substring(33);
+    var broken_image_url = str.split("/");
+    var file_name = broken_image_url[broken_image_url.length-1];
+    //document.getElementById("p1").innerHTML= str.substring(33);
+    document.getElementById("p1").innerHTML = file_name;
     }
   function save_and_submit(){
     var itemIds = $( "#sortable" ).sortable('toArray');
