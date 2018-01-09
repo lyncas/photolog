@@ -15,7 +15,7 @@
     <div class="row">
         <form action="." method="POST">{% csrf_token %}
         
-    	<div class="col-md-4" style="overflow-y: auto; height: 911px; width: 50%;">
+    	<div class="col-md-4" style="overflow-y: auto; height: 700px; width: 50%;">
             <ul id="sortable">
 	    
             {% for image in images %}
@@ -27,7 +27,7 @@
         </div>
 
 
-    	<div class="col-md-6" style="width: 40%;">
+    	<div class="col-md-6" style="width: 50%;">
             <h3 align="left"> Project Number </h3>
             <input type="text" name="project" placeholder="Type Project Number here" class="form-control" style="width: 50%; color: black; " {% if project.name %} value="{{project.name}}" {% endif %}>
             <button class="btn btn-info" style="margin-top: 20px; margin-bottom: 20px;" onclick="rotateLeft(event);">Rotate L</button>
