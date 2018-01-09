@@ -27,28 +27,31 @@
         </div>
 
 
-    	<div class="col-md-6" style="width: 50%;">
+    	<div class="col-md-6" style="width: 40%;">
             <h3 align="left"> Project Number </h3>
-            <input type="text" name="project" placeholder="Type Project Number here" class="form-control" style="width: 45%; color: black; " {% if project.name %} value="{{project.name}}" {% endif %}>
+            <input type="text" name="project" placeholder="Type Project Number here" class="form-control" style="width: 50%; color: black; " {% if project.name %} value="{{project.name}}" {% endif %}>
             <button class="btn btn-info" style="margin-top: 20px; margin-bottom: 20px;" onclick="rotateLeft(event);">Rotate L</button>
             <button class="btn btn-info" style="margin-top: 20px; margin-bottom: 20px;" onclick="rotateRight(event);">Rotate R</button>
             <button class="btn btn-success" style="margin-top: 20px; margin-bottom: 20px;" onclick="save();">Save</button>
             <button class="btn btn-success" style="margin-top: 20px; margin-bottom: 20px;" onclick="save_and_submit();">Finalize</button>
-            <button class="btn btn-warning show-hide-btn" style="margin-top: 20px; margin-bottom: 20px;" onclick="update_imgs(this, event)">Hide Uncaptioned Photos</button>
+            
 		{% for image in images %}
         		<div class="form-group">
         			<input id="caption_{{image.id}}" type="text" class="form-control caption hidden" name="caption_{{image.id}}" style="color: black;" placeholder="Write caption for this image ..." {% if image.caption %} value="{{image.caption}}" {% else %} value=""{% endif %}>
                     <input id="rotate_{{image.id}}" type="hidden" name="rotate_{{image.id}}" value="0">
         		</div>
     		{% endfor %}
-		<p id="p1">default file name</p>
-    		<div class="img-container">
-	    		<img id="main-img" src="{{first_img.image.url}}">
-    		</div>
 		
+    		<!--<div class="img-container" id="main-img container">-->
+                <div class="img-container" id="main image container">
+	    		<img id="main-img" src="{{first_img.image.url}}">
+                </div>
+                <p id="p1" style="margin-bottom: 5px">default file name</p>
+		<input id="stay" type="hidden" name="stay" value="0"></input>
+                <button class="btn btn-warning show-hide-btn" style="margin-top: 20px; margin-bottom: 20px;" onclick="update_imgs(this, event)">Hide Uncaptioned Photos</button>
          </div>
-         <input id="stay" type="hidden" name="stay" value="0"></input>
-    		</form>
+
+         </form>
 
     </div>
 </div>
@@ -65,7 +68,8 @@
   <script>
 $( document ).ready(function() {
 	process_image("{{first_img.image.url}}", "{{first_img.id}}", 'true');
-
+  
+  
   // check if input fields are captioned
   $('input[id^="caption_"]').each(function () {
     check_captioned(this);
@@ -166,6 +170,7 @@ $( document ).ready(function() {
         var currentAngle = currentImageAngle();
         $('#main-img').addClass('rotate-'+currentAngle);
         $('#main-img').css({'width': '', 'height': ''});
+       // $('#main-img container').name("test");
         adjustSize($('#main-img'));
 	
     });
@@ -250,40 +255,40 @@ $( document ).ready(function() {
     if ($image.hasClass('rotate-90') || $image.hasClass('rotate-270')){
         horizontal = false;
     }
-    var adjustoToHeight = false;
+    
+    var adjustoToWidth = false;
+    console.log("hight: "+imageHeight +" Width: "+imageWidth +" container height: "+containerHeight);
     if (horizontal) {
-        if ((imageHeight/imageWidth) > (containerHeight/containerWidth)) {
-            adjustoToHeight = true;
+        if (imageWidth > containerWidth) {
+            adjustoToWidth = true;
         }
     } else {
         // the image will be vertical, so we need to invert the  width/height values
-        if ((imageWidth/imageHeight) > (containerHeight/containerWidth)) {
-            adjustoToHeight = true;
+        if (imageHeight > containerWidth) {
+            adjustoToWidth = true;
         }
     }
 
     var newImageWidth;
     var newImageHeight;
-
-    if (adjustoToHeight) {
-        if (horizontal) {
-            newImageHeight = containerHeight;
-            newImageWidth = newImageHeight * (imageWidth/imageHeight);
-        } else {
-            newImageWidth = containerHeight;
-            newImageHeight = newImageWidth * (imageHeight/imageWidth);
-        }
+    var newContainerHeight;
+    var WidthToHightScalar = imageHeight/imageWidth;
+    var HightToWidthScalar = imageWidth/imageHeight;
+    if (adjustoToWidth) {
+        newImageWidth = containerWidth;
+        newImageHeight = newImageWidth * WidthToHightScalar;  
+        
     } else {
-        if (horizontal) {
-            newImageWidth = containerWidth;
-            newImageHeight = newImageWidth * (imageHeight/imageWidth);
-        } else {
-            newImageHeight = containerWidth;
-            newImageWidth = newImageHeight * (imageWidth/imageHeight);
-        }
+        newImageWidth = imageWidth;
+        newImageHeight = imageHeight;
     }
+    newContainerHeight = newImageHeight;
+    if(horizontal){
+        newContainerHeight = newImageHeight;}
+    else{
+        newContainerHeight=newImageWidth;}
     $image.css({'width': newImageWidth+'px', 'height': newImageHeight+'px'});
-
+    $container.css('height',newContainerHeight+'px');
     if (adjustPosition) {
         var newImageLeft = 0;
         var newImageTop = 0;
