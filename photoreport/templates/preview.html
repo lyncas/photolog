@@ -28,8 +28,7 @@
 
 
     	<div class="col-md-6" style="width: 50%;">
-            <h3 align="left"> Project Number </h3>
-            <input type="text" name="project" placeholder="Type Project Number here" class="form-control" style="width: 50%; color: black; " {% if project.name %} value="{{project.name}}" {% endif %}>
+            
             <button class="btn btn-info" style="margin-top: 20px; margin-bottom: 20px;" onclick="rotateLeft(event);">Rotate L</button>
             <button class="btn btn-info" style="margin-top: 20px; margin-bottom: 20px;" onclick="rotateRight(event);">Rotate R</button>
             <button class="btn btn-success" style="margin-top: 20px; margin-bottom: 20px;" onclick="save();">Save</button>
@@ -49,6 +48,16 @@
                 <p id="p1" style="margin-bottom: 5px">default file name</p>
 		<input id="stay" type="hidden" name="stay" value="0"></input>
                 <button class="btn btn-warning show-hide-btn" style="margin-top: 20px; margin-bottom: 20px;" onclick="update_imgs(this, event)">Hide Uncaptioned Photos</button>
+                <table style="width=100%">
+                    <tr>
+                        <td>
+                            <h3 align="left" style="height: 34px"> Project Number: </h3>
+                        </td>
+                        <td>
+                            <input type="text" name="project" placeholder="Type Project Number here" class="form-control" style="width: auto; color: black; " {% if project.name %} value="{{project.name}}" {% endif %}>
+                        </td>
+                    </tr>
+                </table>
          </div>
 
          </form>
