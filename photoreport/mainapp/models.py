@@ -1,6 +1,6 @@
 from django.db import models
 from django.core.validators import validate_comma_separated_integer_list
-
+from django.shortcuts import render, get_object_or_404
 from django.conf import settings
 from django.core.files import File
 from zipfile import ZipFile
@@ -158,6 +158,57 @@ class InputFile(models.Model):
 
         # save project to input file
         self.project = project
+        self.save()
+        return self.project
+
+class AdditionalZipFile(models.Model):
+    zip_file = models.FileField(
+        upload_to="zipinput/%Y-%m-%d", validators=[validate_file_extension]
+    )
+    input_id = models.TextField()
+    project = models.ForeignKey(Project, blank=True, null=True)
+
+    def get_zip(self):
+	return self.zip_file
+
+    def __str__(self):
+        return str(self.id)
+
+    def append_project(self,input_id):
+
+        media_path = settings.MEDIA_ROOT
+        file_full_path = media_path + str(self.zip_file)
+        # Read zipfile
+        archive = ZipFile(file_full_path, 'r')
+        # fetch a pre-existing project
+        project = get_object_or_404(InputFile,id=int(input_id)).create_project()#method return the desired pre-existing project
+        project.save()
+
+        # Get list of files from zip
+        photos = archive.namelist()
+        valid_extensions = [
+            '.png', '.jpg', '.JPG', '.gif', '.bmp', '.jpeg'
+        ]
+        added_images_order=""
+        for photo in photos:
+            if not '.' + photo.split('.')[-1] in valid_extensions:
+                continue
+            imgdata = archive.read(photo)
+            fname = os.path.join("", photo)
+
+            # save photo
+            photo_obj = Image()
+
+            io = BytesIO(imgdata)
+            photo_obj.image.save(fname, File(io))
+
+            # Add photo to project
+            project.images.add(photo_obj)
+            added_images_order=added_images_order+","+str(photo_obj.id)
+        project.image_order=project.image_order+added_images_order
+        
+        # save project
+        project.save()
         self.save()
         return self.project
 

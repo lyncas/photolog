@@ -56,7 +56,9 @@
                         <td>
                             <input type="text" name="project" placeholder="Type Project Number here" class="form-control" style="width: auto; color: black; " {% if project.name %} value="{{project.name}}" {% endif %}>
                         </td>
-                          <!--  <button class="btn btn-info" style="margin-top: 20px; margin-bottom: 20px;" onlick="save_and_add_more_photos();">add more photos</button> -->
+                        <td>
+                            <button class="btn btn-info" style="margin-top: 20px; margin-bottom: 20px;" onclick="save_and_add_more_photos();">add more photos</button>
+                        </td>
                     </tr>
                 </table>
         </div>
@@ -467,7 +469,8 @@ $( document ).ready(function() {
       var $imgs;
       if (hidding) {
         $imgs = $('#sortable li img.captioned');
-      } else {
+      } 
+      else {
         $imgs = $('#sortable li img');
       }
       var idx = $imgs.index($currentImg.get(0));

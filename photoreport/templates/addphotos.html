@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+{% load staticfiles i18n %}
+
+{% block title %}Home{% endblock title %}
+
+{% block content %}
+    <header>
+        <div class="header-content">
+            <div class="header-content-inner">
+                <h1 id="homeHeading">ADD MORE PHOTOS TO PROJECT</h1>
+                <hr>
+		<p>Install <a target="_blank" href="http://www.bricelam.net/ImageResizer">Image Resizer Application</a> on your computer</p>
+		<p>Copy folder of images, right click to resize all images to large size (1920x1080) </a> </p>
+                <p>Verify no spaces in folder or photo names. (i.e. Folder_99, Photo88.JPG) </p>
+		<p>Create a Zip File containing your resized photos (Max is {{max_photos}} photos) </p>
+                <form class="form-inline" method="POST" action="." enctype='multipart/form-data'>{% csrf_token %}
+                    <input type="hidden" name="input_id" value="{{input_id}}">
+                    <div class="form-group">
+                       {{form.zip_file}}
+                    </div>
+                    <div class="form-group">
+                          <button type="submit" class="btn btn-default btn-xl">
+                             Go!
+                          </button>
+                    </div>
+                    <br>
+                    <br>
+                       {{form.zip_file.errors|first}}
+                        
+                </form>
+            </div>
+        </div>
+    </header>
+{% endblock %}

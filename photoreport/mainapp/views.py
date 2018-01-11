@@ -13,7 +13,7 @@ from zipfile import ZipFile,ZipInfo
 import json
 from docx import Document
 from .generate_report import DocumentGenerator
-from .forms import InputForm, TempFileForm, InputExcelForm
+from .forms import InputForm, TempFileForm, InputExcelForm, InputAdditionalZipForm
 from .models import InputFile, Image, InputXls
 from templateV2 import *
 from get_info_excel import read_from_excel
@@ -58,9 +58,8 @@ class TempFileResumeView(FormView):
             **kwargs)
         return context
 
-
 class UploadFileView(FormView):
-    """Module for landing page and accepting input zip file of photos."""
+    """Module for landing page and accepting input excel files."""
     form_class = InputExcelForm
     template_name = 'template.html'
     def get_success_url(self, *args, **kwargs):
@@ -76,6 +75,32 @@ class UploadFileView(FormView):
         context = super(UploadFileView, self).get_context_data(
             **kwargs)
         return context
+
+
+class AddPhotosView(FormView):
+    """Module for accepting zip file to add photos to pre-existing project"""
+    form_class = InputAdditionalZipForm
+    template_name='addphotos.html'
+
+    def get_success_url(self, *args, **kwargs):
+        input_id = self.kwargs.get('input_id')
+        return reverse_lazy('preview', kwargs={'input_id': input_id})
+
+    def form_valid(self, form):
+        result = form.save()
+        self.obj = result
+        self.obj.append_project(self.kwargs.get('input_id'))
+        return super(AddPhotosView, self).form_valid(form)
+
+    def get_context_data(self, **kwargs):
+        context = super(AddPhotosView, self).get_context_data(
+            **kwargs)
+        input_id=self.kwargs.get('input_id')
+        max_photos = 499-int(get_object_or_404(InputFile, id=int(input_id)).project.images.count())
+        context['max_photos'] = str(max_photos)
+        context['input_id'] = input_id
+        return context
+
 
 
 class DownloadDocView(View):
@@ -151,7 +176,7 @@ class PhotoPreview(View):
 
     def post(self, request, *args, **kwargs):
         data = dict(request.POST)
-	stay = 0
+	stay = '1'
         for key, value in data.items():
             if key == 'csrfmiddlewaretoken':
                 continue
@@ -183,15 +208,18 @@ class PhotoPreview(View):
             elif key == 'stay':
                 stay = value[0]
         print("the value of stay = "+stay)
-        if stay=='1':
+        if stay == '1':
             return HttpResponseRedirect(
                 reverse_lazy('preview',kwargs={'input_id': input_file.id})
             )
-        else:
+        elif stay == '0':
             return HttpResponseRedirect(
                 reverse_lazy('success', kwargs={'pk': input_file.id})
             )
-
+        elif stay == '2':
+            return HttpResponseRedirect(
+                reverse_lazy('addphotos', kwargs={'input_id': input_file.id})
+            )
 
 class ReportGenView(View):
     template_name = 'success.html'

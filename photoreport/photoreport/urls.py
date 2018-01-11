@@ -21,7 +21,8 @@ from django.conf.urls.static import static
 from mainapp.views import (
     LandingInputFileCreateView,
     PhotoPreview, ReportGenView,
-    TempFileResumeView,UploadFileView,DownloadDocView
+    TempFileResumeView,UploadFileView,
+    DownloadDocView,AddPhotosView
 )
 from mainapp.api import ProjectImageOrderUpdate
 
@@ -34,6 +35,10 @@ urlpatterns = [
     url(
         r'^preview/(?P<input_id>[-\w]+)/$',
         PhotoPreview.as_view(), name='preview'
+    ),
+    url(
+        r'^addphotos/(?P<input_id>[-\w]+)/$',
+        AddPhotosView.as_view(), name='addphotos'
     ),
     url(
         regex=r'^api/project/(?P<pk>[-\d]+)/$',
