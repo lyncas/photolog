@@ -15,12 +15,12 @@
     <div class="row">
         <form action="." method="POST">{% csrf_token %}
         
-    	<div class="col-md-4" style="overflow-y: auto; height: 700px; width: 50%;">
+    	<div class="col-md-6" style="overflow-y: auto; height: 700px; width: 50%;">
             <ul id="sortable">
 	    
             {% for image in images %}
 
-	       <li id="{{image.id}}" onclick="process_image('{{image.image.url}}', '{{image.id}}', 'false')" style="width: 120px;height:75px;"><img class="rotate-0" src="{{image.thumbnail.url}}" style="vertical-align: top;"></li>
+	       <li id="{{image.id}}" onclick="process_image('{{image.image.url}}', '{{image.id}}', 'false')" style="width: 120px;height:100px;"><img class="rotate-0" src="{{image.thumbnail.url}}" style="vertical-align: top;"><p id="url_{{image.id}}"></p></li>
 	    {% endfor %}
 	    
 	    </ul>
@@ -383,6 +383,7 @@ $( document ).ready(function() {
 
   function adjustImages() {
     $('#sortable li img').each(function () {
+      set_thumbnail_file_name($(this));
       adjustSize($(this));
     });
   }
@@ -481,9 +482,26 @@ $( document ).ready(function() {
     var str = input;
     var broken_image_url = str.split("/");
     var file_name = broken_image_url[broken_image_url.length-1];
-    //document.getElementById("p1").innerHTML= str.substring(33);
     document.getElementById("p1").innerHTML = file_name;
+  }
+
+
+  function set_thumbnail_file_name($image){
+    $parent = $image.parent();
+    var image_id = $parent.attr('id');
+    if(image_id != "main image container"){
+      var url = $image.attr("src");
+      var broken_url = url.split("/");
+      var file_name = broken_url[broken_url.length-1];
+      var broken_file_name = file_name.split("_")
+      if(broken_file_name[0]=='DSC'){
+        document.getElementById("url_"+image_id).innerHTML = broken_file_name[1];
+      }
     }
+  }
+
+
+
   function save_and_submit(){
     var itemIds = $( "#sortable" ).sortable('toArray');
     post_image_order(itemIds);
