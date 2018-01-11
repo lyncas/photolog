@@ -20,7 +20,7 @@
 	    
             {% for image in images %}
 
-	       <li id="{{image.id}}" onclick="process_image('{{image.image.url}}', '{{image.id}}', 'false')" style="width: 80px;height:50px;"><img class="rotate-0" src="{{image.thumbnail.url}}" style="vertical-align: top;"></li>
+	       <li id="{{image.id}}" onclick="process_image('{{image.image.url}}', '{{image.id}}', 'false')" style="width: 120px;height:75px;"><img class="rotate-0" src="{{image.thumbnail.url}}" style="vertical-align: top;"></li>
 	    {% endfor %}
 	    
 	    </ul>
@@ -253,10 +253,10 @@ $( document ).ready(function() {
     var $container;
     $container = $image.parent();
 
-    var adjustPosition = false;
-    if ($image.attr('id') == 'main-img') {
-        adjustPosition = true;
-    }
+    var adjustPosition = true;
+    //if ($image.attr('id') == 'main-img') {
+    //    adjustPosition = true;
+    //}
 
     var containerWidth = $container.innerWidth();
     var containerHeight = $container.innerHeight();
@@ -284,13 +284,13 @@ $( document ).ready(function() {
     var newImageWidth;
     var newImageHeight;
     var newContainerHeight;
-    if(containerWidth==80){//80 is the default width for the container that holds a thumbnail
+    if(containerWidth==120){//80 is the default width for the container that holds a thumbnail
         if(horizontal){
-            newImageWidth=80;
-            newImageHeight=50;
+            newImageWidth=120;
+            newImageHeight=75;
             }
          else{
-            newImageWidth=50;
+            newImageWidth=75;
             newIamgeHeight=newImageWidth * (imageHeight/imageWidth);
             }
          $image.css({'width': newImageWidth+'px', 'height': newImageHeight+'px'});
