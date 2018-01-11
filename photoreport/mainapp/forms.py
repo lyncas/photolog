@@ -131,7 +131,7 @@ class InputAdditionalZipForm(forms.ModelForm):
 	
  	if num_photos>max_photos:
  	    raise forms.ValidationError(
-                "ZIP FILE MUST HAVE "+max_photos+" OR FEWER PHOTOS!!!!"
+                "ZIP FILE MUST HAVE "+str(max_photos)+" OR FEWER PHOTOS!!!!"
             )
         if not valid_files:
             raise forms.ValidationError(

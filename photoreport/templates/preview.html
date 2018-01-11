@@ -20,7 +20,7 @@
 	    
             {% for image in images %}
 
-	       <li id="{{image.id}}" onclick="process_image('{{image.image.url}}', '{{image.id}}', 'false')" style="width: 80px;height:50px;"><img class="rotate-0" src="{{image.thumbnail.url}}"></li>
+	       <li id="{{image.id}}" onclick="process_image('{{image.image.url}}', '{{image.id}}', 'false')" style="width: 80px;height:50px;"><img class="rotate-0" src="{{image.thumbnail.url}}" style="vertical-align: top;"></li>
 	    {% endfor %}
 	    
 	    </ul>
