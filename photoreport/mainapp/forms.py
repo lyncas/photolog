@@ -125,13 +125,13 @@ class InputAdditionalZipForm(forms.ModelForm):
                 input_id=value[0]
         
 
-        input_file = get_object_or_404(InputFile, id=int(input_id))
-        current_num_photos = int(input_file.project.images.count())
+        current_num_photos = int(get_object_or_404(InputFile, id=int(input_id)).project.images.count())
+  
         max_photos = 499-current_num_photos
 	
  	if num_photos>max_photos:
  	    raise forms.ValidationError(
-                "ZIP FILE MUST HAVE "+str(max_photos)+" OR FEWER PHOTOS!!!!"
+                "ZIP FILE MUST LESS THAN "+str(max_photos+1)+" PHOTOS!!!!"
             )
         if not valid_files:
             raise forms.ValidationError(
