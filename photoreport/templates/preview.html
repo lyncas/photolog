@@ -13,7 +13,7 @@
 <header style="overflow: hidden;">
 <div class="container" style="padding-top: 100px; padding-bottom: 100px;">
     <div class="row">
-        <form action="." method="POST">{% csrf_token %}
+        <form action="." method="POST" id="from">{% csrf_token %}
         
     	<div class="col-md-6" style="overflow-y: auto; height: 700px; width: 50%;">
             <ul id="sortable">
@@ -36,7 +36,8 @@
             
 		{% for image in images %}
         		<div class="form-group">
-        			<input id="caption_{{image.id}}" type="text" class="form-control caption hidden" name="caption_{{image.id}}" style="color: black;" placeholder="Write caption for this image ..." {% if image.caption %} value="{{image.caption}}" {% else %} value=""{% endif %}>
+        			<!--<input id="caption_{{image.id}}" type="text" class="form-control caption hidden" name="caption_{{image.id}}" style="color: black; width: 100%;" placeholder="Write caption for this image ..." {% if image.caption %} value="{{image.caption}}" {% else %} value=""{% endif %}>-->
+                                <textarea name="caption_{{image.id}}" id="caption_{{image.id}}" class="form-control caption hidden" style="color:black; width: 100%;" rows='3' placeholder="Write caption for this image ...">{% if image.caption %}{{image.caption}}{% endif %}</textarea>
                     <input id="rotate_{{image.id}}" type="hidden" name="rotate_{{image.id}}" value="0">
         		</div>
     		{% endfor %}
@@ -82,13 +83,20 @@ $( document ).ready(function() {
 	process_image("{{first_img.image.url}}", "{{first_img.id}}", 'true');
   
   
-  // check if input fields are captioned
+  // check if caption fields are captioned
   $('input[id^="caption_"]').each(function () {
     check_captioned(this);
   });
 
-  // add listener when the user types inside the input fields
+  $('textarea[id^="caption_"]').each(function () {
+    check_captioned(this);
+  });
+  // add listener when the user types inside the caption fields
   $('input[id^="caption_"]').keyup(function () {
+    check_captioned(this);
+  });
+
+  $('textarea[id^="caption_"]').keyup(function () {
     check_captioned(this);
   });
 
@@ -119,7 +127,7 @@ $( document ).ready(function() {
       check_captioned(this);
     });
     var $focused = $(':focus');
-    if ($focused.length == 0 || $focused.get(0).tagName.toLowerCase() != 'input') {
+    if ($focused.length == 0 || $focused.get(0).tagName.toLowerCase() != 'input' || $focused.get(0).tagName.toLowerCase() != 'textarea') {
       // prevent arrow functionality if focus is on input text
       if(e.keyCode == 37) { // left
         e.preventDefault();
@@ -149,7 +157,14 @@ $( document ).ready(function() {
           var id = $(this).attr('id').replace('caption_', '');
           $('li#' + id).hide();
         }
-      })
+      });
+      $('textarea[id^="caption_"]').each(function () {
+        var value = $(this).val().trim();
+        if (value.length == 0) {
+          var id = $(this).attr('id').replace('caption_', '');
+          $('li#' + id).hide();
+        }
+      });
       $btn.html('Show Uncaptioned Photos');
       
       // select the first photo if the current photo got hide
@@ -190,6 +205,7 @@ $( document ).ready(function() {
     $(".caption").removeClass("hidden");
   	$(".caption").not("#caption_" + img_id).hide();
   	$("#caption_" + img_id).show();
+    $('textarea[id=caption_'+img_id+']').show();
     $('#sortable li#' + img_id).find('img').addClass('selected');
     
     //var test =document.getElementById("caption_"+img_id).value;
